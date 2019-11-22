@@ -29,8 +29,6 @@ public class GameMenu extends Parent {
         menu1.setTranslateX(offset);
 
         menuButton btnStart = new menuButton("START GAME");
-        btnStart.setPrefSize(250,40);
-        btnStart.setStyle("-fx-font: 25 arial; -fx-base: #94f4f7;");
         btnStart.setOnMouseClicked(event -> {
             String a = "src/AssetsKit_1/sounds/8_music.mp3";
             Media music = new Media(new File(a).toURI().toString());
@@ -42,8 +40,6 @@ public class GameMenu extends Parent {
 
 
         menuButton btnOptions = new menuButton("OPTIONS");
-        btnOptions.setPrefSize(250,40);
-        btnOptions.setStyle("-fx-font: 25 arial; -fx-base: #94f4f7;");
         btnOptions.setOnMouseClicked(event -> {
             getChildren().add(menu1);
 
@@ -62,12 +58,8 @@ public class GameMenu extends Parent {
         });
 
         menuButton btnHelp = new menuButton("HELP");
-        btnHelp.setPrefSize(250,40);
-        btnHelp.setStyle("-fx-font: 25 arial; -fx-base: #94f4f7;");
 
         menuButton btnExit = new menuButton("QUIT");
-        btnExit.setPrefSize(250,40);
-        btnExit.setStyle("-fx-font: 25 arial; -fx-base: #94f4f7;");
         btnExit.setOnMouseClicked(e -> {
             System.exit(0);
         });

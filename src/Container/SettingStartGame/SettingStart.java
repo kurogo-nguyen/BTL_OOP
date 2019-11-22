@@ -17,7 +17,7 @@ public class SettingStart extends Parent {
     double orgTranslateX, orgTranslateY;
     public static int selectTower ;
     public SettingStart(){
-        GameField.unfeasablePoints();
+        GameField.setPointCanNotBuild();
         //for(Point a : firstOfGame.unfeasablePlacement) System.out.println(a);
         VBox r1 = new VBox(10);
         VBox r2 = new VBox(10);
@@ -77,7 +77,7 @@ public class SettingStart extends Parent {
             cnClone.setLayoutX(cannon.localToScene(cannon.getBoundsInLocal()).getMinX() + 0.5);
             cnClone.setLayoutY(cannon.localToScene(cannon.getBoundsInLocal()).getMinY() + 0.5);
 
-            Main.scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            Main.scene2.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     //System.out.println(mouseEvent.getSceneX() + " " + mouseEvent.getSceneY());
@@ -93,7 +93,7 @@ public class SettingStart extends Parent {
                                         break;
                                 }
 
-                                GameField.unfeasablePlacement.add(new Point(x, y));
+                                GameField.PointsCanNotBuild.add(new Point(x, y));
                             }
                         }
                         if (e.getButton() == MouseButton.SECONDARY) {
@@ -139,7 +139,7 @@ public class SettingStart extends Parent {
             };*/
     public boolean canPlace(Point point){
         //System.out.println(point);
-        if(GameField.unfeasablePlacement.contains(point)) return false;
+        if(GameField.PointsCanNotBuild.contains(point)) return false;
         return true;
     }
 }

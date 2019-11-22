@@ -13,21 +13,32 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static Container.Field.GameField.creatGameField;
+import static Container.Menu.Scenes.gameTowerDF;
+import static Container.Menu.Scenes.menuGame;
+
 public class Main extends Application {
-    public static Stage stage;
-    public static Scene scene;
+    public static Scene scene1, scene2;
     public static GraphicsContext gc;
 
-    public void start(Stage primaryStage) {
-        stage = primaryStage;
-        GameField gameField = new GameField();
+    public void start(Stage stage) {
+        stage.setTitle("Tower defense");
+        creatGameField(stage);
+        scene2 = gameTowerDF();
+        stage.setScene(scene1);
+        stage.show();
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -38,10 +49,8 @@ public class Main extends Application {
             }
         };
         timer.start();
-        stage.show();
 
     }
-
 }
 
 

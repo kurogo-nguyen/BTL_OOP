@@ -7,6 +7,8 @@ import Container.Main;
 import Container.Menu.Scenes;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,21 +17,21 @@ public class GameField extends GameStage{
     public static boolean startGame = false;
     public static GraphicsContext gc;
     public static List<GameObj> gameObjects = new ArrayList<>();
-    public static List<Point> unfeasablePlacement = new ArrayList<>();
+    public static List<Point> PointsCanNotBuild = new ArrayList<>();
 
-    public GameField(){
-        Main.scene = Scenes.menuGame();
-        Main.stage.setScene(Main.scene);
+    public static void creatGameField(Stage stage){
+        Main.scene1 = Scenes.menuGame(stage);
+        stage.setScene(Main.scene1);
         gameObjects.addAll(SmallerEnemy.listSoldiers());
         gameObjects.addAll(TankerEnemy.listTanks());
     }
 
-    public static void unfeasablePoints() {
-        List<String> tao = new ArrayList<>(Arrays.asList("023", "025", "003", "047", "299", "048", "001", "027", "002", "004", "026", "046", "218", "244", "265", "240", "242"));
+    public static void setPointCanNotBuild() {
+        List<String> pointCanNotBuild = new ArrayList<>(Arrays.asList("023", "025", "003", "047", "299", "048", "001", "027", "002", "004", "026", "046", "218", "244", "265", "240", "242"));
         for (int i = 0; i < MAP_SPRITES.length; i++) {
             for (int j = 0; j < MAP_SPRITES[i].length; j++) {
-                if (tao.contains(MAP_SPRITES[i][j])) {
-                    unfeasablePlacement.add(new Point(64 * j, 64 * i));
+                if (pointCanNotBuild.contains(MAP_SPRITES[i][j])) {
+                    PointsCanNotBuild.add(new Point(64 * j, 64 * i));
                 }
             }
         }

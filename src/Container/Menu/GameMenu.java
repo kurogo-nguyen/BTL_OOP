@@ -1,19 +1,19 @@
-package Container.Menu ;
+package Container.Menu;
 
 import Container.Field.GameField;
 import Container.Main;
-import Container.Menu.MenuButton;
-import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 
 public class GameMenu extends Parent {
-    public GameMenu() {
+    public GameMenu(Stage stage) {
 
         VBox menu0 = new VBox(10);
         VBox menu1 = new VBox(10);
@@ -28,15 +28,22 @@ public class GameMenu extends Parent {
 
         menu1.setTranslateX(offset);
 
-        MenuButton btnStart = new MenuButton("START GAME");
+        menuButton btnStart = new menuButton("START GAME");
+        btnStart.setPrefSize(250,40);
+        btnStart.setStyle("-fx-font: 25 arial; -fx-base: #94f4f7;");
         btnStart.setOnMouseClicked(event -> {
-            Main.scene = Scenes.gameTowerDF();
-            Main.stage.setScene(Main.scene);
-            GameField.startGame = true;
+            String a = "src/AssetsKit_1/sounds/8_music.mp3";
+            Media music = new Media(new File(a).toURI().toString());
+            MediaPlayer m = new MediaPlayer(music);
+            m.play();
+            GameField.startGame=true;
+            stage.setScene(Main.scene2);
         });
 
 
-        MenuButton btnOptions = new MenuButton("OPTIONS");
+        menuButton btnOptions = new menuButton("OPTIONS");
+        btnOptions.setPrefSize(250,40);
+        btnOptions.setStyle("-fx-font: 25 arial; -fx-base: #94f4f7;");
         btnOptions.setOnMouseClicked(event -> {
             getChildren().add(menu1);
 
@@ -53,14 +60,19 @@ public class GameMenu extends Parent {
                 getChildren().remove(menu0);
             });
         });
-        MenuButton btnHelp = new MenuButton("HELP");
 
-        MenuButton btnExit = new MenuButton("QUIT");
+        menuButton btnHelp = new menuButton("HELP");
+        btnHelp.setPrefSize(250,40);
+        btnHelp.setStyle("-fx-font: 25 arial; -fx-base: #94f4f7;");
+
+        menuButton btnExit = new menuButton("QUIT");
+        btnExit.setPrefSize(250,40);
+        btnExit.setStyle("-fx-font: 25 arial; -fx-base: #94f4f7;");
         btnExit.setOnMouseClicked(e -> {
             System.exit(0);
         });
 
-        MenuButton btnBack = new MenuButton("BACK");
+        menuButton btnBack = new menuButton("BACK");
         btnBack.setOnMouseClicked(event -> {
             getChildren().add(menu0);
 
@@ -78,8 +90,8 @@ public class GameMenu extends Parent {
             });
         });
 
-        MenuButton btnSound = new MenuButton("SOUND");
-        MenuButton btnVideo = new MenuButton("VIDEO");
+        menuButton btnSound = new menuButton("SOUND");
+        menuButton btnVideo = new menuButton("VIDEO");
 
         menu0.getChildren().addAll(btnStart, btnOptions, btnHelp, btnExit);
         menu1.getChildren().addAll(btnBack, btnSound, btnVideo);

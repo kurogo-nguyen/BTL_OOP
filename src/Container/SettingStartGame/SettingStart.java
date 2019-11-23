@@ -1,6 +1,7 @@
 package Container.SettingStartGame;
 import Container.Field.*;
 import Container.Main;
+import Container.Menu.audio;
 import Container.Tower.NormalTower;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -9,22 +10,26 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+
+import java.util.Set;
 
 
 public class SettingStart extends Parent {
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     public static int selectTower ;
+    public static int index ;
     public SettingStart(){
         GameField.setPointCanNotBuild();
-        //for(Point a : firstOfGame.unfeasablePlacement) System.out.println(a);
+
         VBox r1 = new VBox(10);
         VBox r2 = new VBox(10);
-        r1.setTranslateX(18 * 64 + 10);
-        r1.setTranslateY(50);
-        r2.setTranslateX(18 * 64 + 10 + 70 + 10);
-        r2.setTranslateY(50);
+        r1.setTranslateX(18 * 64 + 30);
+        r1.setTranslateY(30);
+        r2.setTranslateX(18 * 64 + 30 + 70 + 10);
+        r2.setTranslateY(30);
         SettingItem cannon1 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile180.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile249.png");
         SettingItem cannon2 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile205.png");
         SettingItem cannon3 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile206.png");
@@ -35,10 +40,35 @@ public class SettingStart extends Parent {
         r2.getChildren().addAll(cannon4 ,cannon5 ,cannon6);
 
         //System.out.println(cannon1.localToScene(cannon1.getBoundsInLocal()));
+        Line separate= new Line(18* 64 , 0 , 18 * 64 , 12 *64);
+        separate.setStrokeWidth(3);
+        separate.setStroke(Color.BLACK);
         Rectangle rc = new Rectangle(18 * 64 , 0 , 250 , 12 * 64);
         rc.setFill(Color.GREY);
         rc.setOpacity(0.2);
-        getChildren().addAll(rc , r1 , r2 );
+
+
+        SettingItem nextLevel = new SettingItem("Next Level");
+        nextLevel.setTranslateX(18 * 64 + 30);
+        nextLevel.setTranslateY(270);
+
+        SettingItem mainMenu = new SettingItem("Main Menu");
+        mainMenu.setTranslateX(18 * 64 + 30);
+        mainMenu.setTranslateY(718 );
+
+        SettingItem gameFactors = new SettingItem(GameField.level , GameField.lives , GameField.cash);
+        gameFactors.setTranslateX(0);
+        gameFactors.setTranslateY(11 * 64);
+
+        getChildren().addAll(rc ,separate,gameFactors,  r1 , r2 , nextLevel , mainMenu);
+
+        nextLevel.setOnMouseClicked(e ->{
+            GameField.startLevel = true;
+        });
+
+        mainMenu.setOnMouseClicked(e ->{
+            GameField.reset();
+        });
         cannon1.setOnMousePressed(e ->{
             selectTower = 1;
         });
@@ -64,6 +94,24 @@ public class SettingStart extends Parent {
         handleSettingItem(cannon5);
         handleSettingItem(cannon6);
 
+        towerFeature(cannon1 , "file:src/AssetsKit_2/cannon.jpg");
+        towerFeature(cannon4 , "file:src/AssetsKit_2/iceTurret.jpg");
+        towerFeature(cannon2 , "file:src/AssetsKit_2/missleLauncher.jpg");
+
+    }
+    public void towerFeature(SettingItem cannon , String img){
+        cannon.setOnMouseEntered(e ->{
+            ImageView imageView = new ImageView(img);
+            imageView.setFitHeight(420);
+            imageView.setFitWidth(245);
+            imageView.setTranslateX(18 * 64 + 3);
+            imageView.setTranslateY(344);
+            getChildren().add(imageView);
+            index = getChildren().size() -1;
+        });
+        cannon.setOnMouseExited(e ->{
+            getChildren().remove(index);
+        });
     }
     public void handleSettingItem(SettingItem cannon){
         cannon.setOnMouseClicked(e -> {
@@ -80,7 +128,6 @@ public class SettingStart extends Parent {
             Main.scene2.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    //System.out.println(mouseEvent.getSceneX() + " " + mouseEvent.getSceneY());
                     cnClone.setOnMouseMoved(cannonOnMouseMovedEventHandler);
                     cnClone.setOnMousePressed(e -> {
                         if (e.getButton() == MouseButton.PRIMARY) {
@@ -89,6 +136,7 @@ public class SettingStart extends Parent {
                             if (canPlace(new Point(x, y))) {
                                 switch(selectTower){
                                     case 1:
+//                                        audio.buildAudio();
                                         GameField.gameObjects.add(NormalTower.createNormalTower(x, y));
                                         break;
                                 }
@@ -138,7 +186,6 @@ public class SettingStart extends Parent {
                 }
             };*/
     public boolean canPlace(Point point){
-        //System.out.println(point);
         if(GameField.PointsCanNotBuild.contains(point)) return false;
         return true;
     }

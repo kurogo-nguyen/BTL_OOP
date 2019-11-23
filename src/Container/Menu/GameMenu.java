@@ -30,10 +30,10 @@ public class GameMenu extends Parent {
 
         menuButton btnStart = new menuButton("START GAME");
         btnStart.setOnMouseClicked(event -> {
-            String a = "src/AssetsKit_1/sounds/8_music.mp3";
-            Media music = new Media(new File(a).toURI().toString());
-            MediaPlayer m = new MediaPlayer(music);
-            m.play();
+//            String a = "src/AssetsKit_1/sounds/8_music.mp3";
+//            Media music = new Media(new File(a).toURI().toString());
+//            MediaPlayer m = new MediaPlayer(music);
+//            m.play();
             GameField.startGame=true;
             stage.setScene(Main.scene2);
         });

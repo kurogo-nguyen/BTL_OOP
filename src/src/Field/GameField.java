@@ -22,9 +22,9 @@ public class GameField extends GameStage{
     public static boolean startLevel = false;
     static int count=2;
     public static boolean startGame = false;
-    public static List<GameObj> gameObjects;
+    public static List<GameObj> gameObjects = new ArrayList<>();
     public static List<Enemy> enemies;
-    public static List<Point> PointsCanNotBuild;
+    public static List<Point> PointsCanNotBuild= new ArrayList<>();
 
     public static int level ;
     public static int lives ;
@@ -126,8 +126,8 @@ public class GameField extends GameStage{
 
         PointsCanNotBuild.removeAll(PointsCanNotBuild);
         gameObjects.removeAll(gameObjects);
-        Main.scene2 = Scenes.menuGame(Main.stage);
-        Main.stage.setScene(Main.scene2);
+        Main.scene1 = Scenes.menuGame(Main.stage);
+        Main.stage.setScene(Main.scene1);
 
         Timeline timeline = new Timeline();
         KeyFrame keyFrame = new KeyFrame(Duration.millis(5000), event -> {

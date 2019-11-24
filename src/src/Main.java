@@ -16,7 +16,8 @@ public class Main extends Application {
     public static GraphicsContext gc;
     public static Stage stage;
 
-    public void start(Stage stage) {
+    public void start(Stage _stage) {
+        stage=_stage;
         stage.setTitle("Tower defense");
         creatGameField(stage);
         scene2 = gameTowerDF();

@@ -4,5 +4,5 @@ module BTL_OOP {
     requires java.desktop;
     requires javafx.media;
 
-    opens Container;
+    opens src;
 }

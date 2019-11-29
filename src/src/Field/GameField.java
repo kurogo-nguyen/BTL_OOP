@@ -23,7 +23,7 @@ public class GameField extends GameStage{
     static int count=2;
     public static boolean startGame = false;
     public static List<GameObj> gameObjects = new ArrayList<>();
-    public static List<Enemy> enemies;
+    public static List<Enemy> enemies = new ArrayList<>();
     public static List<Point> PointsCanNotBuild= new ArrayList<>();
 
     public static int level ;
@@ -38,8 +38,8 @@ public class GameField extends GameStage{
         cash = 50;
         Timeline timeline = new Timeline();
         KeyFrame keyFrame = new KeyFrame(Duration.millis(5000), event -> {
-            gameObjects.addAll(SmallerEnemy.listSoldiers());
-            gameObjects.addAll(TankerEnemy.listTanks());
+            enemies.addAll(SmallerEnemy.listSoldiers());
+            enemies.addAll(TankerEnemy.listTanks());
             if(count == 0) timeline.stop();
             count --;
 
@@ -110,36 +110,16 @@ public class GameField extends GameStage{
     public static void render(GraphicsContext gc) {
         drawMap(gc);
         gameObjects.forEach(g -> g.render(gc));
+        enemies.forEach(g -> g.render(gc));
     }
 
     public static void update() {
         gameObjects.forEach(GameObj::update);
+        enemies.forEach(GameObj::update);
     }
 
     public static void reset(){
-        count = 2;
-        startGame = false;
-        startLevel = false;
-        level = 1;
-        lives = 20;
-        cash = 50;
-
-        PointsCanNotBuild.removeAll(PointsCanNotBuild);
-        gameObjects.removeAll(gameObjects);
         Main.scene1 = Scenes.menuGame(Main.stage);
         Main.stage.setScene(Main.scene1);
-
-        Timeline timeline = new Timeline();
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(5000), event -> {
-            gameObjects.addAll(SmallerEnemy.listSoldiers());
-            gameObjects.addAll(TankerEnemy.listTanks());
-            if(count == 0) timeline.stop();
-            count --;
-
-        });
-
-        timeline.getKeyFrames().add(keyFrame);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
     }
 }

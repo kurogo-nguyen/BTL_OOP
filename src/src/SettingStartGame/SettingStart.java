@@ -1,6 +1,7 @@
 package src.SettingStartGame;
 import src.Field.*;
 import src.Main;
+import src.Player;
 import src.Tower.NormalTower;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -53,7 +54,7 @@ public class SettingStart extends Parent {
         mainMenu.setTranslateX(18 * 64 + 30);
         mainMenu.setTranslateY(718 );
 
-        SettingItem gameFactors = new SettingItem(GameField.level , GameField.lives , GameField.cash);
+        SettingItem gameFactors = new SettingItem(GameField.level , Player.lives , Player.gold);
         gameFactors.setTranslateX(0);
         gameFactors.setTranslateY(11 * 64);
 

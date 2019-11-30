@@ -20,7 +20,7 @@ public class SmallerEnemy extends Enemy{
 
         gc.drawImage(base, x, y);
     }
-    public static SmallerEnemy creatSoldier(int x , int type){
+    public static SmallerEnemy createSoldier(int x , int type){
         SmallerEnemy smallerEnemy = new SmallerEnemy();
         smallerEnemy.i = 14;
         smallerEnemy.j = 1;
@@ -48,7 +48,7 @@ public class SmallerEnemy extends Enemy{
     public static ArrayList<SmallerEnemy> listSoldiers(){
         ArrayList<SmallerEnemy> soldiers = new ArrayList<>();
         for(int i = 0 ; i < 4 ; i++){
-            soldiers.add(creatSoldier(i * 32 , i % 4));
+            soldiers.add(createSoldier(i * 32 , i % 4));
         }
         return soldiers;
     }

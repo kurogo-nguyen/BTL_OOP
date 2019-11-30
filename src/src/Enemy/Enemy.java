@@ -1,15 +1,17 @@
 package src.Enemy;
 
+
+import javafx.scene.canvas.GraphicsContext;
 import src.Field.GameField;
 import src.Field.Point;
 import src.GameObj;
-import javafx.scene.canvas.GraphicsContext;
 
 
 public abstract class Enemy extends GameObj {
     double speed;
     Direction direction;
     int health;
+    int armor;
     double reward;
     int wayPointIndex = 0;
     public Point getNextWayPoint() {
@@ -41,6 +43,7 @@ public abstract class Enemy extends GameObj {
     }
     public abstract void render(GraphicsContext gc);
     public void update(){
+
         calculateDirection();
 
         switch (direction) {
@@ -59,24 +62,17 @@ public abstract class Enemy extends GameObj {
         }
     }
 
-    enum Direction {
-        LEFT(180), UP(270), RIGHT(0), DOWN(90);
+}
+enum Direction {
+    LEFT(180), UP(270), RIGHT(0), DOWN(90), LCross(135);
 
-        int degree;
+    int degree;
 
-        Direction(int i) {
-            degree = i;
-        }
-
-        int getDegree() {
-            return degree;
-        }
+    Direction(int i) {
+        degree = i;
     }
 
-    public boolean isDestroy(){
-        if(health<=0)
-            return true;
-        else
-            return false;
+    int getDegree() {
+        return degree;
     }
 }

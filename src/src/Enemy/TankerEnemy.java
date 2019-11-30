@@ -28,7 +28,7 @@ public class TankerEnemy extends Enemy{
         gc.drawImage(gun, x, y);
 
     }
-    public static TankerEnemy createTank(int X , int type) {
+    public static TankerEnemy createSoldier(int X , int type) {
         TankerEnemy tanker = new TankerEnemy();
         tanker.i = 14;
         tanker.j = -2 - X;
@@ -51,7 +51,7 @@ public class TankerEnemy extends Enemy{
     public static ArrayList<TankerEnemy> listTanks(){
         ArrayList<TankerEnemy> tanks = new ArrayList<>();
         for(int i = 0 ; i < 2 ; i++){
-            tanks.add(createTank(i, i % 2));
+            tanks.add(createSoldier(i, i % 2));
         }
         return tanks;
     }

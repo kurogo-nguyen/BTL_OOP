@@ -1,13 +1,11 @@
-package Container.Enemy;
+package src.Enemy;
 
-import Container.Field.GameField;
-import Container.Field.Point;
-import Container.GameEntity;
-import Container.GameObj;
+
 import javafx.scene.canvas.GraphicsContext;
+import src.Field.GameField;
+import src.Field.Point;
+import src.GameObj;
 
-import static Container.Field.GameField.wayPoints;
-import static Container.Main.gc;
 
 public abstract class Enemy extends GameObj {
     double speed;

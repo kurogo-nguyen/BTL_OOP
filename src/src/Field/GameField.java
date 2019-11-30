@@ -13,34 +13,40 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import src.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameField extends GameStage implements Parameter{
+public class GameField extends GameStage{
     public static boolean startLevel = false;
+    static int count=2;
     public static boolean startGame = false;
     public static List<GameObj> gameObjects = new ArrayList<>();
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Point> PointsCanNotBuild= new ArrayList<>();
 
     public static int level ;
-
+    public static int lives ;
+    public static int cash ;
 
     public static void creatGameField(Stage stage) {
         Main.scene1 = Scenes.menuGame(stage);
         stage.setScene(Main.scene1);
         level = 1;
+        lives = 20;
+        cash = 50;
         Timeline timeline = new Timeline();
         KeyFrame keyFrame = new KeyFrame(Duration.millis(5000), event -> {
             enemies.addAll(SmallerEnemy.listSoldiers());
             enemies.addAll(TankerEnemy.listTanks());
+            if(count == 0) timeline.stop();
+            count --;
+
         });
 
         timeline.getKeyFrames().add(keyFrame);
-        timeline.setCycleCount(2);
+        timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
@@ -49,7 +55,7 @@ public class GameField extends GameStage implements Parameter{
         for (int i = 0; i < MAP_SPRITES.length; i++) {
             for (int j = 0; j < MAP_SPRITES[i].length; j++) {
                 if (pointCanNotBuild.contains(MAP_SPRITES[i][j])) {
-                    PointsCanNotBuild.add(new Point(squareHeight * j, squareWidth * i));
+                    PointsCanNotBuild.add(new Point(64 * j, 64 * i));
                 }
             }
         }
@@ -73,13 +79,13 @@ public class GameField extends GameStage implements Parameter{
 
     //diem dinh huong
     public static final Point[] wayPoints = new Point[] {
-            new Point(14 * squareWidth + 32, 7 * squareHeight + 32),
-            new Point(9 * squareWidth + 32, 7 * squareHeight + 32),
-            new Point(9 * squareWidth + 32, 1 * squareHeight + 32),
-            new Point(5 * squareWidth + 32, 1 * squareHeight + 32),
-            new Point(5 * squareWidth + 32, 6 * squareHeight + 32),
-            new Point(1 * squareWidth + 32, 6 * squareHeight + 32),
-            new Point(1 * squareWidth + 32,-1 * squareHeight + 00),
+            new Point(14 * 64 + 32, 7 * 64 + 32),
+            new Point(9 * 64 + 32, 7 * 64 + 32),
+            new Point(9 * 64 + 32, 1 * 64 + 32),
+            new Point(5 * 64 + 32, 1 * 64 + 32),
+            new Point(5 * 64 + 32, 6 * 64 + 32),
+            new Point(1 * 64 + 32, 6 * 64 + 32),
+            new Point(1 * 64 + 32,-1 * 64 + 00),
     };
 
     public static double distance(double x1, double y1, double x2, double y2) {
@@ -89,15 +95,15 @@ public class GameField extends GameStage implements Parameter{
     public static void drawMap(GraphicsContext gc) {
         for (int i = 0; i < MAP_SPRITES.length; i++) {
             for (int j = 0; j < MAP_SPRITES[i].length; j++) {
-                gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile" + MAP_SPRITES[i][j] + ".png"), j * squareWidth, i * squareHeight);
+                gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile" + MAP_SPRITES[i][j] + ".png"), j * 64, i * 64);
             }
         }
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile137.png") , 80 + 14 * squareWidth,  10 * squareHeight);
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile136.png") , 128 + 14 *squareWidth, 30 + 9 * squareHeight );
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile134.png") , 4 * squareWidth  + 25, 8 * squareHeight + 25);
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile134.png") , 6 * squareWidth , 9 * squareHeight );
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile131.png") , 11 * squareWidth , 0);
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile130.png") , 12 * squareWidth , 32 );
+        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile137.png") , 80 + 14 * 64,  10 * 64);
+        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile136.png") , 128 + 14 *64, 30 + 9 * 64 );
+        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile134.png") , 4 * 64  + 25, 8 * 64 + 25);
+        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile134.png") , 6 * 64 , 9 * 64 );
+        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile131.png") , 11 * 64 , 0);
+        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile130.png") , 12 * 64 , 32 );
     }
 
     //update vi tri enemy

@@ -33,6 +33,7 @@ public abstract class Tower extends GameObj {
             gc.translate(-x-32,-y-32);
             gc.drawImage(gunImg, x, y);
             gc.restore();
+//            shot();
         } else
             gc.drawImage(gunImg, x, y);
     }
@@ -53,6 +54,8 @@ public abstract class Tower extends GameObj {
     void shot(){
         Bullet bullet= new Bullet(x, y);
         GameField.gameObjects.add(bullet);
+//        bullet.speedX= (int) ((GameField.enemies.get(target).x-x)/5);
+//        bullet.speedY= (int) ((GameField.enemies.get(target).y-y)/5);
     }
 
     void findTarget(){
@@ -75,7 +78,7 @@ public abstract class Tower extends GameObj {
     public void update() {
 //        findTarget();
 //        if(hasTarget())
-            shot();
+//            shot();
     }
 }
 

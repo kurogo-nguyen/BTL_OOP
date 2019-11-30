@@ -50,11 +50,11 @@ public class SettingItem extends StackPane {
         getChildren().addAll(rc , text);
 
     }
-    public SettingItem(int level , int lives , int cash){
+    public SettingItem(int level , int lives , int gold){
         Rectangle rc = new Rectangle(64 * 18 , 64);
         rc.setFill(Color.GREY);
         rc.setOpacity(0.2);
-        String str = "Level:\t" + level + "/50\t\t\t\tLives:\t" + lives + "\t\t\tCash$:\t" + cash ;
+        String str = "Level:\t" + level + "/50\t\t\t\tLives:\t" + lives + "\t\t\tGold:\t" + gold ;
         text = new Text(str);
         text.setFont(Font.font (Font.getFontNames().get(20), FontWeight.SEMI_BOLD, FontPosture.ITALIC,  30));
         text.setFill(Color.BLACK);

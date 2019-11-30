@@ -41,7 +41,6 @@ public abstract class Enemy extends GameObj {
     }
     public abstract void render(GraphicsContext gc);
     public void update(){
-
         calculateDirection();
 
         switch (direction) {
@@ -72,5 +71,12 @@ public abstract class Enemy extends GameObj {
         int getDegree() {
             return degree;
         }
+    }
+
+    public boolean isDestroy(){
+        if(health<=0)
+            return true;
+        else
+            return false;
     }
 }

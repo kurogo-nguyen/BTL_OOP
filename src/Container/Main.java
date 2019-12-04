@@ -25,8 +25,8 @@ public class Main extends Application {
     public static Scene scene;
     public static GraphicsContext gc;
 
-    public void start(Stage primaryStage) {
-        stage = primaryStage;
+    public void start(Stage primarystage) {
+        stage = primarystage;
         GameField gameField = new GameField();
         AnimationTimer timer = new AnimationTimer() {
             @Override

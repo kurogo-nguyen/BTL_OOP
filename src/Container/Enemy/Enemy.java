@@ -13,7 +13,6 @@ public abstract class Enemy extends GameObj {
     double speed;
     Direction direction;
     int health;
-    int armor;
     double reward;
     int wayPointIndex = 0;
     public Point getNextWayPoint() {
@@ -66,7 +65,7 @@ public abstract class Enemy extends GameObj {
 
 }
 enum Direction {
-    LEFT(180), UP(270), RIGHT(0), DOWN(90), LCross(135);
+    LEFT(180), UP(270), RIGHT(0), DOWN(90);
 
     int degree;
 

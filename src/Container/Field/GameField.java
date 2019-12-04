@@ -1,93 +1,198 @@
 package Container.Field;
 
+import Container.Enemy.Enemy;
 import Container.Enemy.SmallerEnemy;
 import Container.Enemy.TankerEnemy;
-import Container.GameObj;
 import Container.Main;
 import Container.Menu.Scenes;
+import Container.Player;
+import Container.SettingStartGame.SettingItem;
+import Container.Tower.Bullet;
+import Container.Tower.Tower;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class GameField extends GameStage{
     public static boolean startGame = false;
+    public static boolean startLevel = false;
+    public static boolean creatEnemy = false;
     public static GraphicsContext gc;
-    public static List<GameObj> gameObjects = new ArrayList<>();
-    public static List<Point> unfeasablePlacement = new ArrayList<>();
+    public static List<Point> unfeasiblePlacement = new ArrayList<>();
+    public static Image[][] images = new Image[11][18];
+    public static List<Image> decoration = new ArrayList<>();
+    public static int level ;
 
     public GameField(){
+        saveImage();
         Main.scene = Scenes.menuGame();
         Main.stage.setScene(Main.scene);
-        gameObjects.addAll(SmallerEnemy.listSoldiers());
-        gameObjects.addAll(TankerEnemy.listTanks());
+        level = 0 ;
+        Player.lives = 5 ;
+        Player.cash = 50 ;
+        Enemy.enemies.addAll(SmallerEnemy.listSoldiers());
+        //enemies.addAll(TankerEnemy.listTanks());
     }
 
-    public static void unfeasablePoints() {
+    public static void unfeasiblePoints() {
         List<String> tao = new ArrayList<>(Arrays.asList("023", "025", "003", "047", "299", "048", "001", "027", "002", "004", "026", "046", "218", "244", "265", "240", "242"));
-        for (int i = 0; i < MAP_SPRITES.length; i++) {
-            for (int j = 0; j < MAP_SPRITES[i].length; j++) {
-                if (tao.contains(MAP_SPRITES[i][j])) {
-                    unfeasablePlacement.add(new Point(64 * j, 64 * i));
+        for (int i = 0; i < Map1.MAP_SPRITES.length; i++) {
+            for (int j = 0; j < Map1.MAP_SPRITES[i].length; j++) {
+                if (tao.contains(Map1.MAP_SPRITES[i][j])) {
+                    unfeasiblePlacement.add(new Point(64 * j, 64 * i));
                 }
             }
         }
     }
 
-    public static final String[][] MAP_SPRITES = new String[][] {
-            { "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "242", "240", "114", "241" },
-            { "024", "024", "024", "024", "003", "047", "047", "047", "047", "004", "024", "024", "024", "024", "242", "240", "241", "241" },
-            { "041", "024", "024", "024", "025", "299", "001", "001", "002", "023", "024", "024", "024", "024", "242", "240", "241", "241" },
-            { "024", "024", "024", "024", "025", "023", "024", "024", "025", "023", "024", "024", "024", "024", "242", "240", "241", "109" },
-            { "024", "003", "047", "047", "048", "023", "024", "045", "025", "023", "024", "024", "024", "024", "242", "240", "241", "241" },
-            { "024", "025", "299", "001", "001", "027", "024", "045", "025", "023", "024", "024", "024", "024", "242", "240", "241", "241" },
-            { "024", "025", "023", "024", "024", "024", "024", "024", "025", "023", "024", "024", "024", "024", "242", "240", "241", "241" },
-            { "024", "025", "023", "024", "024", "024", "024", "024", "025", "046", "047", "047", "047", "047", "265", "240", "241", "098" },
-            { "024", "025", "023", "024", "024", "024", "024", "024", "026", "001", "001", "001", "001", "001", "218", "244", "098", "098" },
-            { "024", "025", "023", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024" },
-            { "024", "025", "023", "024", "039", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024" },
-            { "024", "025", "023", "024", "024", "024", "024", "044", "024", "024", "024", "024", "024", "024", "024", "024", "024", "024" },
+    public void saveImage(){
+        for (int i = 0; i < Map1.MAP_SPRITES.length; i++) {
+            for (int j = 0; j < Map1.MAP_SPRITES[i].length; j++) {
+                images[i][j] = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile" + Map1.MAP_SPRITES[i][j] + ".png");
+            }
+        }
+        decoration.add(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile137.png"));
+        decoration.add(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile136.png"));
+        decoration.add(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile134.png"));
+        decoration.add(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile131.png"));
+        decoration.add(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile130.png"));
 
-    };
-
-
-    //diem dinh huong
-    public static final Point[] wayPoints = new Point[] {
-            new Point(14 * 64 + 32, 7 * 64 + 32),
-            new Point(8 * 64 + 32, 7 * 64 + 32),
-            new Point(8 * 64 + 32, 1 * 64 + 32),
-            new Point(4 * 64 + 32, 1 * 64 + 32),
-            new Point(4 * 64 + 32, 4 * 64 + 32),
-            new Point(1 * 64 + 32, 4 * 64 + 32),
-            new Point(1 * 64 + 32,12 * 64 + 00),
-    };
+    }
 
     public static double distance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
     public static void drawMap(GraphicsContext gc) {
-        for (int i = 0; i < MAP_SPRITES.length; i++) {
-            for (int j = 0; j < MAP_SPRITES[i].length; j++) {
-                gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile" + MAP_SPRITES[i][j] + ".png"), j * 64, i * 64);
+        for (int i = 0; i < images.length; i++) {
+            for (int j = 0; j < images[i].length; j++) {
+                gc.drawImage(images[i][j], j * 64, i * 64);
             }
         }
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile137.png") , 80 , 32 );
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile136.png") , 128 , 0 );
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile134.png") , 4 * 64  + 25, 8 * 64 + 25);
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile134.png") , 6 * 64 , 9 * 64 );
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile131.png") , 11 * 64 , 0);
-        gc.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile130.png") , 12 * 64 , 32 );
+
+        gc.drawImage(decoration.get(0) , 80 + 14 * 64,  10 * 64);
+        gc.drawImage(decoration.get(1) , 128 + 14 *64, 30 + 9 * 64 );
+        gc.drawImage(decoration.get(2) , 4 * 64  + 25, 8 * 64 + 25);
+        gc.drawImage(decoration.get(2) , 6 * 64 , 9 * 64 );
+        gc.drawImage(decoration.get(3) , 11 * 64 , 0);
+        gc.drawImage(decoration.get(4) , 12 * 64 , 32 );
+
     }
 
-    //update vi tri enemy
-    public static void render(GraphicsContext gc) {
-        drawMap(gc);
-        gameObjects.forEach(g -> g.render(gc));
+    public void render(GraphicsContext gc) {
+        if(startGame) {
+            drawMap(gc);
+            updateGF();
+            Enemy.enemies.forEach(enemy -> enemy.render(gc));
+            Bullet.bullets.forEach(bullet -> bullet.render(gc));
+            Tower.towers.forEach(tower -> tower.render(gc));
+
+        }
+    }
+    public void update() {
+        if(startLevel) {
+            if(Player.lives == 0) {
+                youLose();
+                Main.scene = Scenes.gameOver();
+                Main.stage.setScene(Main.scene);
+            }
+            Tower.towers.forEach(tower -> {
+                tower.checkTarget();
+            });
+            Tower.towers.forEach(tower -> {
+                tower.findTarget(Enemy.enemies);
+            });
+            Tower.towers.forEach(tower -> {
+                tower.setAngle();
+            });
+
+            checkCollisions();
+
+//            Enemy.enemies.forEach(enemy -> {
+//                enemy.update();
+//                if(enemy.outSizePlayZone()) {
+//                    Enemy.enemies.remove(enemy);
+//                    Player.lives -= 1;
+//                }
+//            });
+
+            //update enemy
+            for (int index = 0; index < Enemy.enemies.size(); index++) {
+                Enemy.enemies.get(index).update();
+                if(Enemy.enemies.get(index).outSizePlayZone()) {
+                    Enemy.enemies.remove(index--);
+                    Player.lives -= 1;
+                }
+            }
+
+            Tower.towers.forEach(Tower::update);
+//            Bullet.bullets.forEach(bullet -> {
+//                bullet.update();
+//                if(bullet.outSizePlayZone()) Bullet.bullets.remove(bullet);
+//            });
+            for (int index = 0; index < Bullet.bullets.size(); index++) {
+                Bullet.bullets.get(index).update();
+                if(Bullet.bullets.get(index).outSizePlayZone()) Bullet.bullets.remove(index--);
+            }
+
+        }
+    }
+    public void checkCollisions() {
+        for( Tower tower: Tower.towers) {
+            for (int index = 0; index < Enemy.enemies.size(); index++) {
+                if( tower.shootTarget(Enemy.enemies.get(index))) {
+                    Enemy.enemies.get(index).getDamagedBy( tower);
+                    if( !Enemy.enemies.get(index).isAlive()) {
+                        Player.cash += Enemy.enemies.get(index).reward;
+                        Enemy.enemies.remove(index--);
+                    }
+                }
+            }
+        }
     }
 
-    public static void update() {
-        gameObjects.forEach(GameObj::update);
+    public void updateGF(){
+        Scenes.gameFactors = new SettingItem(GameField.level , Player.lives , Player.cash);
+        Scenes.gameFactors.setTranslateX(0);
+        Scenes.gameFactors.setTranslateY(11 * 64);
+        Scenes.root.getChildren().remove(2);
+        Scenes.root.getChildren().add(Scenes.gameFactors);
+    }
+    public static void reset(){
+        startGame = false;
+        startLevel = false;
+        creatEnemy = false;
+        level = 0;
+        Player.lives = 20;
+        Player.cash = 50;
+
+        unfeasiblePlacement.removeAll(unfeasiblePlacement);
+        Tower.towers.removeAll(Tower.towers);
+        Enemy.enemies.removeAll(Enemy.enemies);
+        Bullet.bullets.removeAll(Bullet.bullets);
+        //gameObjects.addAll(SmallerEnemy.listSoldiers());
+        Enemy.enemies.addAll(TankerEnemy.listTanks());
+
+        Main.scene = Scenes.menuGame();
+        Main.stage.setScene(Main.scene);
+    }
+    public static void youLose(){
+        startGame = false;
+        startLevel = false;
+        creatEnemy = false;
+        level = 0;
+        Player.lives = 5;
+        Player.cash = 50;
+
+        unfeasiblePlacement.removeAll(unfeasiblePlacement);
+        Tower.towers.removeAll(Tower.towers);
+        Enemy.enemies.removeAll(Enemy.enemies);
+        Bullet.bullets.removeAll(Bullet.bullets);
+
+        Enemy.enemies.addAll(SmallerEnemy.listSoldiers());
+
     }
 }

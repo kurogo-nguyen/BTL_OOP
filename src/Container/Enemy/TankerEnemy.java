@@ -1,7 +1,6 @@
 package Container.Enemy;
 
 import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,8 +9,15 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 public class TankerEnemy extends Enemy{
-    public Image gunImg;
+    protected Image gunImg;
 
+    public TankerEnemy() {
+        this.reward = 10;
+        this.enemyHP = 150;
+        this.health = 150;
+        this.speed = 4;
+        this.direction = Direction.DOWN;
+    }
 
     public void render(GraphicsContext gc) {
         SnapshotParameters params = new SnapshotParameters();
@@ -28,15 +34,21 @@ public class TankerEnemy extends Enemy{
         gc.drawImage(base, x, y);
         gc.drawImage(gun, x, y);
 
+        /*double scale = (double)health / enemyHP;
+        gc.setFill(Color.RED);
+        gc.fillRect(x + 10 , y +4, 45 ,8);
+        gc.setFill(Color.rgb(27,219,6));
+        gc.fillRect(x +10, y +4 , 45  * scale ,8);*/
+        super.render(gc);
+
     }
-    public static TankerEnemy createTank(int X , int type) {
+    public static TankerEnemy createTank(int x , int type) {
         TankerEnemy tanker = new TankerEnemy();
         tanker.i = 14;
-        tanker.j = -2 - X;
+        tanker.j = -5 - x;
         tanker.x = tanker.i * 64 + 32;
         tanker.y = tanker.j * 64;
-        tanker.speed = 10;
-        tanker.direction = Direction.DOWN;
+
         switch (type){
             case 0 :
                 tanker.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile268.png");
@@ -51,7 +63,7 @@ public class TankerEnemy extends Enemy{
     }
     public static ArrayList<TankerEnemy> listTanks(){
         ArrayList<TankerEnemy> tanks = new ArrayList<>();
-        for(int i = 0 ; i < 2 ; i++){
+        for(int i = 0 ; i < 3 ; i++){
             tanks.add(createTank(i, i % 2));
         }
         return tanks;

@@ -1,33 +1,35 @@
 package Container.Enemy;
 
 import Container.Field.GameField;
+import Container.Field.Map1;
 import Container.Field.Point;
-import Container.GameEntity;
 import Container.GameObj;
+import Container.Tower.Tower;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
-import static Container.Field.GameField.wayPoints;
-import static Container.Main.gc;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Enemy extends GameObj {
-    double speed;
-    Direction direction;
-    int health;
-    double reward;
-    int wayPointIndex = 0;
+    public static List<Enemy> enemies = new ArrayList<>();
+    protected int enemyHP;
+    protected double speed;
+    protected Direction direction;
+    protected int health;
+    public int reward;
+    protected int wayPointIndex = 0;
     public Point getNextWayPoint() {
-        if (wayPointIndex < GameField.wayPoints.length - 1)
-            return GameField.wayPoints[++wayPointIndex];
+        if (wayPointIndex < Map1.wayPoints.length - 1)
+            return Map1.wayPoints[++wayPointIndex];
         return null;
     }
     public void calculateDirection() {
-        // Tinh huong di tiep theo cho Object
-        if (wayPointIndex >= GameField.wayPoints.length) {
-            // Enemy den way point cuoi
+        if (wayPointIndex >= Map1.wayPoints.length) {
             return;
         }
 
-        Point currentWP = GameField.wayPoints[wayPointIndex];
+        Point currentWP = Map1.wayPoints[wayPointIndex];
         if (GameField.distance(x, y, currentWP.x, currentWP.y) <= speed) {
             x = currentWP.x;
             y = currentWP.y;
@@ -42,9 +44,20 @@ public abstract class Enemy extends GameObj {
         }
 
     }
-    public abstract void render(GraphicsContext gc);
+    public void render(GraphicsContext gc){
+        double scale = (double)health / enemyHP;
+        gc.setFill(Color.RED);
+        gc.fillRect(x + 12 , y +4, 40 ,6);
+        gc.setFill(Color.rgb(27,219,6));
+        gc.fillRect(x +12, y +4 , 40  * scale ,6);
+    }
+    public boolean isAlive() {
+        return Double.compare(health, 0) > 0;
+    }
+    public void getDamagedBy(Tower tower) {
+        health -= tower.getDamage();
+    }
     public void update(){
-
         calculateDirection();
 
         switch (direction) {

@@ -10,6 +10,14 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 public class SmallerEnemy extends Enemy{
+    public SmallerEnemy() {
+        this.reward = 5;
+        this.enemyHP = 100;
+        this.health = 100;
+        this.speed = 4 ;
+        this.direction = Direction.DOWN;
+    }
+
     public void render(GraphicsContext gc) {
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
@@ -19,15 +27,20 @@ public class SmallerEnemy extends Enemy{
         Image base = iv.snapshot(params, null);
 
         gc.drawImage(base, x, y);
+
+        /*double scale = (double)health / enemyHP;
+        gc.setFill(Color.RED);
+        gc.fillRect(x + 15 , y + 8, 34 ,7);
+        gc.setFill(Color.rgb(27,219,6));
+        gc.fillRect(x +15, y + 8 , 34  * scale ,7);*/
+        super.render(gc);
     }
     public static SmallerEnemy creatSoldier(int x , int type){
         SmallerEnemy smallerEnemy = new SmallerEnemy();
         smallerEnemy.i = 14;
-        smallerEnemy.j = 1;
-        smallerEnemy.speed = 10 ;
-        smallerEnemy.direction = Direction.DOWN;
+        smallerEnemy.j = 0 ;
         smallerEnemy.x = smallerEnemy.i * 64 + 32;
-        smallerEnemy.y = smallerEnemy.j * 64  - x;
+        smallerEnemy.y = (smallerEnemy.j - x )* 64 ;
         switch(type){
             case 0 :
                 smallerEnemy.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile245.png");
@@ -47,8 +60,8 @@ public class SmallerEnemy extends Enemy{
     }
     public static ArrayList<SmallerEnemy> listSoldiers(){
         ArrayList<SmallerEnemy> soldiers = new ArrayList<>();
-        for(int i = 0 ; i < 4 ; i++){
-            soldiers.add(creatSoldier(i * 32 , i % 4));
+        for(int i = 0 ; i < 3 ; i++){
+            soldiers.add(creatSoldier(i + 1 , i % 4));
         }
         return soldiers;
     }

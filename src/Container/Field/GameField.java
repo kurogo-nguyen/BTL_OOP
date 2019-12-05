@@ -33,7 +33,7 @@ public class GameField extends GameStage{
         level = 0 ;
         Player.lives = 5 ;
         Player.cash = 50 ;
-        Enemy.enemies.addAll(SmallerEnemy.listSoldiers());
+//        Enemy.enemies.addAll(SmallerEnemy.listSoldiers());
         //enemies.addAll(TankerEnemy.listTanks());
     }
 

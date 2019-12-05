@@ -1,25 +1,24 @@
 package Container.Tower;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class MachineGunTower extends Tower{
-    public MachineGunTower() {
+public class MissileLauncherTower extends Tower {
+    public MissileLauncherTower() {
 
     }
-    public MachineGunTower(double x , double y){
-        this.selling = 25;
+    public MissileLauncherTower(double x , double y){
+        this.selling = 30 ;
         this.shootingRange = 200;
-        this.damage = 13;
+        this.damage = 15;
         this.x = x;
         this.y = y;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png");
-        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile250.png");
+        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile204.png");
     }
     public Bullet creatBullet(double x , double y , double rotation){
         Bullet bullet = super.creatBullet(x , y , rotation);
-        bullet.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile295.png");
+        bullet.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile251.png");
         return bullet;
     }
     public static Tower createNormalTower(double X , double Y) {

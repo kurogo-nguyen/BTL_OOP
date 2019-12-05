@@ -1,2 +1,4 @@
-Huy          1000
-Duc Anh       500
+HUY
+2000
+DUC ANH
+500

@@ -81,8 +81,8 @@ public class GameMenu extends Parent implements Parameter {
                     a+=(char)charIndex;
                     charIndex=fileInputStream.read();
                 }
-                Text text = new Text(screenWidth/3, screenHeight/3, a);
-                text.setStyle("-fx-font: 30 arial ; -fx-fill: #0026e7;");
+                Text text = new Text(screenWidth/2, screenHeight/3, a);
+                text.setStyle("-fx-font: 31 arial ; -fx-fill: #0026e7;");
                 getChildren().addAll(ivHighScore,text);
                 System.out.println(a);
             } catch (IOException e) {

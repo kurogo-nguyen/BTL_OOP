@@ -60,7 +60,7 @@ public class SmallerEnemy extends Enemy{
     }
     public static ArrayList<SmallerEnemy> listSoldiers(){
         ArrayList<SmallerEnemy> soldiers = new ArrayList<>();
-        for(int i = 0 ; i < 3 ; i++){
+        for(int i = 0 ; i < 4 ; i++){
             soldiers.add(creatSoldier(i + 1 , i % 4));
         }
         return soldiers;

@@ -63,7 +63,7 @@ public class TankerEnemy extends Enemy{
     }
     public static ArrayList<TankerEnemy> listTanks(){
         ArrayList<TankerEnemy> tanks = new ArrayList<>();
-        for(int i = 0 ; i < 3 ; i++){
+        for(int i = 0 ; i < 2 ; i++){
             tanks.add(createTank(i, i % 2));
         }
         return tanks;

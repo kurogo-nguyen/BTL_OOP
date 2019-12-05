@@ -5,6 +5,7 @@ import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -20,7 +21,11 @@ public class SettingItem extends StackPane {
     protected Image gImg;
 
     public SettingItem() {
+        Circle circle = new Circle(150);
+        circle.setStroke(Color.RED);
+        circle.setFill(Color.TRANSPARENT);
         setCursor(Cursor.HAND);
+        getChildren().add(circle);
     }
 
     public SettingItem(String base, String gun) {
@@ -50,6 +55,22 @@ public class SettingItem extends StackPane {
         getChildren().addAll(rc , text);
 
     }
+
+    public SettingItem(String item , int number){
+        setCursor(Cursor.HAND);
+        text = new Text(item);
+        text.setFont(Font.font (Font.getFontNames().get(20), FontWeight.SEMI_BOLD,  20));
+        text.setFill(Color.BLACK);
+
+        Rectangle rc = new Rectangle(95 , 35);
+        rc.setOpacity(0.5);
+        rc.setStroke(Color.BLACK);
+        rc.setFill(Color.GRAY);
+
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(rc , text);
+    }
+
     public SettingItem(int level , int lives , int cash){
         Rectangle rc = new Rectangle(64 * 18 , 64);
         rc.setFill(Color.GREY);

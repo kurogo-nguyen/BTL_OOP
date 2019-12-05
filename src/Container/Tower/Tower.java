@@ -15,6 +15,7 @@ import java.util.List;
 public abstract class Tower extends GameObj {
     public static List<Tower> towers = new ArrayList<>();
     protected int damage;
+    protected int affordUpgrade ;
     protected boolean check = true;
     protected Bullet b = new Bullet();
     protected Image gunImg;
@@ -23,6 +24,9 @@ public abstract class Tower extends GameObj {
     protected double rotationSpeed = 0.8;
     protected double targetAngle = 0;
     protected double currentAngle = 0;
+    protected int selling ;
+    protected boolean towerUpgrade ;
+    protected boolean renderFireRange ;
     public static GraphicsContext gc;
 
     boolean withinFiringRange = false;
@@ -44,6 +48,10 @@ public abstract class Tower extends GameObj {
         gc.translate(-x-32,-y-32);
         gc.drawImage(gunImg, x, y);
         gc.restore();
+//        if(renderFireRange) {
+//            gc.setStroke(Color.RED);
+//            gc.strokeOval(x - targetRange + 32, y - targetRange + 32, targetRange * 2, targetRange * 2);
+//        }
     }
     public int getDamage() {
         return damage;
@@ -143,15 +151,15 @@ public abstract class Tower extends GameObj {
     public boolean shootTarget(Enemy enemy) {
         if(target == enemy && withinFiringRange){
             if(check) {
-                Bullet bullet = new Bullet(x , y , rotation);
+                Bullet bullet = creatBullet(this.x , this.y , this.rotation);
                 b = bullet;
-                Bullet.bullets.add(bullet);
+                //GameField.bullets.add(bullet);
                 check = false;
             }
             else if(b.collidesWith(enemy)){
                 Bullet.bullets.remove(b);
-                Bullet other = new Bullet(x , y , rotation);
-                Bullet.bullets.add(other);
+                Bullet other = creatBullet(this.x , this.y , this.rotation);
+                //GameField.bullets.add(other);
                 b = other ;
                 return true;
             }else if(GameField.distance(b.x , b.y , this.x , this.y) > shootingRange){
@@ -163,6 +171,7 @@ public abstract class Tower extends GameObj {
     }
     public Bullet creatBullet(double x , double y , double rotation){
         Bullet bullet = new Bullet(x , y , rotation);
+        Bullet.bullets.add(bullet);
         return bullet;
     }
 
@@ -170,5 +179,21 @@ public abstract class Tower extends GameObj {
         setAngle();
     }
 
+    public abstract void upgrade();
+
+    public int getSelling() {
+        return selling;
+    }
+
+    public void setTowerUpgrade(boolean towerUpgrade) {
+        this.towerUpgrade = towerUpgrade;
+    }
+    public int getAffordUpgrade() {
+        return affordUpgrade;
+    }
+
+    public void setRenderFireRange(boolean renderFireRange) {
+        this.renderFireRange = renderFireRange;
+    }
 }
 

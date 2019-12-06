@@ -61,34 +61,8 @@ public class GameMenu extends Parent implements Parameter {
                 getChildren().remove(menu0);
             });
         });
-        MenuButton btnHelp = new MenuButton("HELP");
-        MenuButton btnHighScore = new MenuButton("High Score");
-        btnHighScore.setOnMouseClicked(mouseEvent -> {
-            Image imageHighScore = new Image("file:resource/image/highScoreImage.png",screenWidth, screenHeight,false,false);
-            ImageView ivHighScore = new ImageView(imageHighScore);
 
-//
-//            File file = new File("resource/HighScore.txt");
-            try {
-//                FileOutputStream fileOutputStream =new FileOutputStream(file);
-//                String b="Huy          1000\n" +
-//                         "Duc Anh       500";
-//                fileOutputStream.write(b.getBytes());
-                FileInputStream fileInputStream = new FileInputStream("resource/HighScore.txt");
-                String a =new String();
-                int charIndex = fileInputStream.read();
-                while (charIndex!=-1){
-                    a+=(char)charIndex;
-                    charIndex=fileInputStream.read();
-                }
-                Text text = new Text(screenWidth/2, screenHeight/3, a);
-                text.setStyle("-fx-font: 31 arial ; -fx-fill: #0026e7;");
-                getChildren().addAll(ivHighScore,text);
-                System.out.println(a);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+
 
         MenuButton btnExit = new MenuButton("QUIT");
         btnExit.setOnMouseClicked(e -> {
@@ -113,10 +87,42 @@ public class GameMenu extends Parent implements Parameter {
             });
         });
 
+        MenuButton btnHighScore = new MenuButton("High Score");
+        btnHighScore.setOnMouseClicked(mouseEvent -> {
+            Image imageHighScore = new Image("file:resource/image/highScoreImage.png",screenWidth, screenHeight,false,false);
+            ImageView ivHighScore = new ImageView(imageHighScore);
+
+//            File file = new File("resource/HighScore.txt");
+            try {
+//                FileOutputStream fileOutputStream =new FileOutputStream(file);
+//                String b="Huy          1000\n" +
+//                         "Duc Anh       500";
+//                fileOutputStream.write(b.getBytes());
+                FileInputStream fileInputStream = new FileInputStream("resource/HighScore.txt");
+                String a =new String();
+                int charIndex = fileInputStream.read();
+                while (charIndex!=-1){
+                    a+=(char)charIndex;
+                    charIndex=fileInputStream.read();
+                }
+                Text text = new Text(screenWidth/2, screenHeight/3, a);
+                text.setStyle("-fx-font: 31 arial ; -fx-fill: #0026e7;");
+                btnBack.setLayoutX(screenWidth/2-125);
+                btnBack.setLayoutY(500);
+                btnBack.setOnMouseClicked(mouseEvent1 -> {
+                    getChildren().removeAll(ivHighScore,text, btnBack);
+                });
+                getChildren().addAll(ivHighScore,text, btnBack);
+                System.out.println(a);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         MenuButton btnSound = new MenuButton("SOUND");
         MenuButton btnVideo = new MenuButton("VIDEO");
 
-        menu0.getChildren().addAll(btnStart, btnOptions, btnHelp, btnHighScore, btnExit);
+        menu0.getChildren().addAll(btnStart, btnOptions, btnHighScore, btnExit);
         menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
 
         getChildren().add(menu0);

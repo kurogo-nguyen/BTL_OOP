@@ -16,18 +16,17 @@ public abstract class Tower extends GameObj {
     public static List<Tower> towers = new ArrayList<>();
     protected int damage;
     protected int affordUpgrade ;
-    protected boolean check = true;
+    boolean check = true;
     protected Bullet b = new Bullet();
     protected Image gunImg;
     protected Enemy target;
     protected double shootingRange;
-    protected double rotationSpeed = 0.8;
-    protected double targetAngle = 0;
-    protected double currentAngle = 0;
     protected int selling ;
-    protected boolean towerUpgrade ;
+//    protected boolean towerUpgrade ;
     protected boolean renderFireRange ;
     public static GraphicsContext gc;
+    public int cost;
+    Tower towerUpgrade;
 
     boolean withinFiringRange = false;
 
@@ -149,12 +148,13 @@ public abstract class Tower extends GameObj {
         return target == enemy && withinFiringRange;
     }
     public boolean shootTarget(Enemy enemy) {
+
         if(target == enemy && withinFiringRange){
             if(check) {
                 Bullet bullet = creatBullet(this.x , this.y , this.rotation);
                 b = bullet;
                 //GameField.bullets.add(bullet);
-                check = false;
+                check=false;
             }
             else if(b.collidesWith(enemy)){
                 Bullet.bullets.remove(b);
@@ -164,7 +164,7 @@ public abstract class Tower extends GameObj {
                 return true;
             }else if(GameField.distance(b.x , b.y , this.x , this.y) > shootingRange){
                 Bullet.bullets.remove(b);
-                check = true;
+                check=true;
             }
         }
         return false;
@@ -185,15 +185,14 @@ public abstract class Tower extends GameObj {
         return selling;
     }
 
-    public void setTowerUpgrade(boolean towerUpgrade) {
-        this.towerUpgrade = towerUpgrade;
-    }
-    public int getAffordUpgrade() {
-        return affordUpgrade;
+    public abstract Image infoImage();
+
+    public Tower getTowerUpgrade() {
+        return towerUpgrade;
     }
 
-    public void setRenderFireRange(boolean renderFireRange) {
-        this.renderFireRange = renderFireRange;
+    public double getShootingRange() {
+        return shootingRange;
     }
 }
 

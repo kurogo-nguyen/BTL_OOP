@@ -147,6 +147,7 @@ public class GameField extends GameStage{
                     Enemy.enemies.get(index).getDamagedBy( tower);
                     if( !Enemy.enemies.get(index).isAlive()) {
                         Player.cash += Enemy.enemies.get(index).reward;
+                        Player.score += Enemy.enemies.get(index).reward;
                         Enemy.enemies.remove(index--);
                     }
                 }

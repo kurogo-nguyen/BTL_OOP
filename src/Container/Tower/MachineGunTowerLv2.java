@@ -1,25 +1,23 @@
 package Container.Tower;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class MachineGunTower extends Tower{
-    public MachineGunTower() {
-        this.shootingRange = 2*64;
+public class MachineGunTowerLv2 extends Tower{
+    public MachineGunTowerLv2() {
+        this.shootingRange = 3*64;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png");
-        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile203.png");
+        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile204.png");
     }
-    public MachineGunTower(double x , double y){
+    public MachineGunTowerLv2(double x , double y){
         cost=35;
-        towerUpgrade=new MachineGunTowerLv2();
         this.selling = 25;
-        this.shootingRange = 2*64;
+        this.shootingRange = 3*64;
         this.damage = 13;
         this.x = x;
         this.y = y;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png");
-        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile203.png");
+        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile204.png");
     }
     public Bullet creatBullet(double x , double y , double rotation){
         Bullet bullet = super.creatBullet(x , y , rotation);
@@ -31,7 +29,7 @@ public class MachineGunTower extends Tower{
         tower.x = X;
         tower.y = Y;
         tower.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png");
-        tower.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile203.png");
+        tower.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile204.png");
         return tower;
     }
     public void render(GraphicsContext gc){
@@ -40,15 +38,13 @@ public class MachineGunTower extends Tower{
 
     public void update() {
         super.update();
-
     }
     public void upgrade(){
-        Tower.towers.add(new MachineGunTowerLv2(x,y));
-        Tower.towers.remove(this);
+
     }
 
     @Override
     public Image infoImage() {
-        return new Image("file:src/AssetsKit_2/MachineGun2.png");
+        return new Image("file:src/AssetsKit_2/MachineGun.png");
     }
 }

@@ -16,19 +16,17 @@ import javafx.scene.image.ImageView;
 
 public class SettingItem extends StackPane {
     private Text text;
-    private Image img;
-    protected Image bImg;
-    protected Image gImg;
+    Image bImg;
+    Image gImg;
 
-    public SettingItem() {
-        Circle circle = new Circle(150);
-        circle.setStroke(Color.RED);
+    SettingItem(double r) {
+        Circle circle = new Circle(r);
         circle.setFill(Color.TRANSPARENT);
         setCursor(Cursor.HAND);
         getChildren().add(circle);
     }
 
-    public SettingItem(String base, String gun) {
+    SettingItem(String base, String gun) {
         setCursor(Cursor.HAND);
         Rectangle rc = new Rectangle(64, 64);
         rc.setOpacity(0.6);
@@ -40,7 +38,7 @@ public class SettingItem extends StackPane {
         ImageView gunImg = new ImageView(gImg);
         getChildren().addAll(rc, baseImg, gunImg);
     }
-    public SettingItem(String item){
+    SettingItem(String item){
         setCursor(Cursor.HAND);
         text = new Text(item);
         text.setFont(Font.font (Font.getFontNames().get(20), FontWeight.SEMI_BOLD,  20));
@@ -56,7 +54,7 @@ public class SettingItem extends StackPane {
 
     }
 
-    public SettingItem(String item , int number){
+    SettingItem(String item, int number){
         setCursor(Cursor.HAND);
         text = new Text(item);
         text.setFont(Font.font (Font.getFontNames().get(20), FontWeight.SEMI_BOLD,  20));

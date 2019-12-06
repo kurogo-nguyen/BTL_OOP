@@ -3,26 +3,26 @@ package Container.Tower;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class MissileLauncherTower extends Tower {
-    public MissileLauncherTower() {
+public class NormalTowerLV2 extends Tower {
+    public NormalTowerLV2() {
+        cost=20;
         this.shootingRange = 4*64;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png");
-        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile206.png");
+        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile250.png");
     }
-    public MissileLauncherTower(double x , double y){
-        cost=50;
-        towerUpgrade= new MissileLauncherTowerLv2();
+    public NormalTowerLV2(double x , double y){
+        cost=20;
         this.selling = 30 ;
         this.shootingRange = 4*64;
         this.damage = 50;
         this.x = x;
         this.y = y;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png");
-        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile205.png");
+        this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile250.png");
     }
     public Bullet creatBullet(double x , double y , double rotation){
         Bullet bullet = super.creatBullet(x , y , rotation);
-        bullet.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile251.png");
+        bullet.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile274.png");
         return bullet;
     }
     public static Tower createNormalTower(double X , double Y) {
@@ -42,12 +42,11 @@ public class MissileLauncherTower extends Tower {
 
     }
     public void upgrade(){
-        Tower.towers.add(new MissileLauncherTowerLv2(x,y));
-        Tower.towers.remove(this);
+
     }
 
     @Override
     public Image infoImage() {
-        return new Image("file:src/AssetsKit_2/MissleLaucher.png");
+        return new Image("file:src/AssetsKit_2/cannon2.png");
     }
 }

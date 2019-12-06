@@ -4,6 +4,7 @@ import Container.Enemy.*;
 import Container.Field.GameField;
 import Container.Field.Point;
 import Container.Main;
+import Container.Menu.Audio;
 import Container.Player;
 import Container.Tower.MachineGunTower;
 import Container.Tower.MissileLauncherTower;
@@ -12,6 +13,7 @@ import Container.Tower.Tower;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,20 +23,23 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.util.List;
+
 
 public class SettingStart extends Parent {
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
+    private double orgSceneX, orgSceneY;
+    private double orgTranslateX, orgTranslateY;
     public static int count = 0 ;
     public static int cost ;
     public static int selectTower ;
     public static int index ;
     public static SettingItem settingItem;
-    public static Pane pane;
+    private static Pane pane;
     public SettingStart(){
         GameField.unfeasiblePoints();
 
@@ -45,13 +50,13 @@ public class SettingStart extends Parent {
         r2.setTranslateX(18 * 64 + 30 + 70 + 10);
         r2.setTranslateY(30);
         SettingItem cannon1 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile180.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile249.png");
-        SettingItem cannon2 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile204.png");
-        SettingItem cannon3 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile205.png");
-        SettingItem cannon4 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile250.png");
-        SettingItem cannon5 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile206.png");
-        SettingItem cannon6 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile203.png");
-        r1.getChildren().addAll(cannon1 ,cannon2 ,cannon3);
-        r2.getChildren().addAll(cannon4 ,cannon5 ,cannon6);
+        SettingItem cannon4 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile203.png");
+//        SettingItem cannon3 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile205.png");
+        SettingItem cannon2 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile206.png");
+//        SettingItem cannon5 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile206.png");
+//        SettingItem cannon6 = new SettingItem("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png" , "file:src/AssetsKit_2/PNG/Default size/towerDefense_tile203.png");
+        r1.getChildren().addAll(cannon1 ,cannon2);
+        r2.getChildren().addAll(cannon4);
 
         //System.out.println(cannon1.localToScene(cannon1.getBoundsInLocal()));
         Line separate= new Line(18* 64 , 0 , 18 * 64 , 12 *64);
@@ -79,49 +84,59 @@ public class SettingStart extends Parent {
                         boolean check = false;
                         int x = (int) (e.getSceneX() / 64) * 64;
                         int y = (int) (e.getSceneY() / 64) * 64;
+
+                        Circle circle = new Circle();
+                        circle.setFill(Color.web("Blue", 0.1));
+                        circle.setCenterX(x+32);
+                        circle.setCenterY(y+32);
+                        setCursor(Cursor.HAND);
+
                         for (Tower tower : Tower.towers) {
                             if (tower.x == x && tower.y == y) {
-                                tower.setRenderFireRange(true);
                                 getChildren().remove(pane);
                                 pane = new Pane();
                                 HBox hBox = new HBox(10);
                                 hBox.setTranslateY(365);
                                 hBox.setTranslateX(15);
-                                ImageView test = new ImageView(new Image("file:src/AssetsKit_2/cannon.jpg"));
+                                ImageView test = new ImageView(tower.infoImage());
                                 test.setFitHeight(420);
                                 test.setFitWidth(245);
                                 SettingItem upgrade = new SettingItem("Upgrade", 0);
                                 SettingItem sell = new SettingItem("Sell" , 0);
+
+//                                circle.setRadius(tower.getShootingRange());
+//                                getChildren().add(circle);
+
                                 hBox.getChildren().addAll(upgrade , sell);
                                 pane.getChildren().addAll(test , hBox);
                                 pane.setTranslateX(18 * 64 + 3);
                                 pane.setTranslateY(344);
 
-                                getChildren().addAll(pane );
+                                getChildren().addAll(pane);
                                 upgrade.setOnMouseClicked(event1 ->{
-                                    if(canAfford()) {
-                                        tower.setTowerUpgrade(true);
+                                    if(canAfford(tower.getTowerUpgrade())) {
                                         tower.upgrade();
-                                        Player.cash -= tower.getAffordUpgrade();
+                                        Player.cash -= tower.getTowerUpgrade().cost;
                                     }
                                 });
                                 sell.setOnMouseClicked(event2 ->{
                                     Player.cash += tower.getSelling();
                                     Tower.towers.remove(tower);
-                                    for(Point a : GameField.unfeasiblePlacement){
-                                        if(a.x == x && a.y == y) GameField.unfeasiblePlacement.remove(a);
+                                    for (int i = 0; i < GameField.unfeasiblePlacement.size(); i++) {
+                                        Point a = GameField.unfeasiblePlacement.get(i);
+                                        if (a.x == x && a.y == y) GameField.unfeasiblePlacement.remove(a);
                                     }
                                     getChildren().remove(pane);
 
 
                                 });
                                 check = true;
-                            }else{
-                                tower.setRenderFireRange(false);
+                                break;
                             }
                         }
                         if (check == false && e.getSceneX() < 18 * 64) {
                             getChildren().remove(pane);
+                            getChildren().remove(circle);
                         }
                     }
                 });
@@ -133,7 +148,7 @@ public class SettingStart extends Parent {
         getChildren().addAll(rc ,separate , r1 , r2 , nextLevel , mainMenu);
 
         nextLevel.setOnMouseClicked(e ->{
-            Enemy.enemies.removeAll(Enemy.enemies);
+//            Enemy.enemies.removeAll(Enemy.enemies);
             Enemy.enemies.addAll(SmallerEnemy.listSoldiers());
             count = 0;
             GameField.level += 1;
@@ -159,38 +174,35 @@ public class SettingStart extends Parent {
         });
         cannon1.setOnMousePressed(e ->{
             selectTower = 1;
-            cost = 20;
         });
         cannon2.setOnMousePressed(e ->{
             selectTower = 2;
-            cost = 35;
         });
-        cannon3.setOnMousePressed(e ->{
-            selectTower = 3;
-            cost = 50;
-        });
+//        cannon3.setOnMousePressed(e ->{
+//            selectTower = 3;
+//            cost = 50;
+//        });
         cannon4.setOnMousePressed(e ->{
             selectTower = 4;
-            cost = 30;
         });
-        cannon5.setOnMousePressed(e ->{
-            selectTower = 5;
-            cost = 50;
-        });
-        cannon6.setOnMousePressed(e ->{
-            selectTower = 6;
-            cost = 50;
-        });
-        handleSettingItem(cannon1);
-        handleSettingItem(cannon2);
-        handleSettingItem(cannon3);
-        handleSettingItem(cannon4);
-        handleSettingItem(cannon5);
-        handleSettingItem(cannon6);
+//        cannon5.setOnMousePressed(e ->{
+//            selectTower = 5;
+//            cost = 50;
+//        });
+//        cannon6.setOnMousePressed(e ->{
+//            selectTower = 6;
+//            cost = 50;
+//        });
+        handleSettingItem(cannon1, new NormalTower());
+        handleSettingItem(cannon2, new MissileLauncherTower());
+//        handleSettingItem(cannon3);
+        handleSettingItem(cannon4, new MachineGunTower());
+//        handleSettingItem(cannon5);
+//        handleSettingItem(cannon6);
 
         towerFeature(cannon1 , "file:src/AssetsKit_2/cannon.jpg");
-        towerFeature(cannon4 , "file:src/AssetsKit_2/iceTurret.jpg");
-        towerFeature(cannon2 , "file:src/AssetsKit_2/missleLauncher.jpg");
+        towerFeature(cannon4 , "file:src/AssetsKit_2/MachineGun2.png");
+        towerFeature(cannon2 , "file:src/AssetsKit_2/MissleLaucher.png");
 
     }
 
@@ -209,82 +221,84 @@ public class SettingStart extends Parent {
         });
     }
 
-    private void handleSettingItem(SettingItem cannon){
+    private void handleSettingItem(SettingItem cannon, Tower tower){
         cannon.setOnMouseClicked(e -> {
             orgSceneX = e.getSceneX();
             orgSceneY = e.getSceneY();
             orgTranslateX = ((SettingItem) (e.getSource())).getTranslateX();
             orgTranslateY = ((SettingItem) (e.getSource())).getTranslateY();
 
-            SettingItem cnClone = new SettingItem();
+            Circle circle = new Circle(tower.getShootingRange());
+            circle.setFill(Color.web("Red", 0.1));
+            setCursor(Cursor.HAND);
+            getChildren().add(circle);
+
+            SettingItem cnClone = new SettingItem(tower.getShootingRange());
             cnClone.getChildren().addAll(new ImageView(cannon.bImg), new ImageView(cannon.gImg));
-            cnClone.setLayoutX(cannon.localToScene(cannon.getBoundsInLocal()).getMinX() - 118);
-            cnClone.setLayoutY(cannon.localToScene(cannon.getBoundsInLocal()).getMinY() - 118);
+            cnClone.getChildren().add(circle);
+            cnClone.setLayoutX(cannon.localToScene(cannon.getBoundsInLocal()).getMinX() - tower.getShootingRange()+32);
+            cnClone.setLayoutY(cannon.localToScene(cannon.getBoundsInLocal()).getMinY() - tower.getShootingRange()+32);
 
-            Main.scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    cnClone.setOnMouseMoved(cannonOnMouseMovedEventHandler);
-                    cnClone.setOnMousePressed(e -> {
-                        if (e.getButton() == MouseButton.PRIMARY) {
-                            int x = (int) (mouseEvent.getSceneX() / 64) * 64;
-                            int y = (int) (mouseEvent.getSceneY() / 64) * 64;
-                            if (canPlace(new Point(x, y))) {
-                                switch(selectTower){
-                                    case 1:
-                                        if(canAfford()) {
-                                            Tower.towers.add(new NormalTower(x, y));
-                                            Player.cash -= cost;
-                                        }
-                                        break;
-                                    case 2:
-                                        if(canAfford()) {
-                                            Tower.towers.add(new MissileLauncherTower(x, y));
-                                            Player.cash -= cost;
-                                        }
-                                        break;
-                                    case 4:
-                                        if(canAfford()){
-                                            Tower.towers.add(new MachineGunTower(x, y));
-                                            Player.cash -= cost;
-                                        }
-                                }
+            Main.scene.setOnMouseMoved(mouseEvent -> {
+                cnClone.setOnMouseMoved(mouseEvent1 -> {
 
+                    double offsetX = mouseEvent1.getSceneX() - orgSceneX;
+                    double offsetY = mouseEvent1.getSceneY() - orgSceneY;
+                    double newTranslateX = orgTranslateX + offsetX;
+                    double newTranslateY = orgTranslateY + offsetY;
+                    ((SettingItem) (mouseEvent1.getSource())).setTranslateX(newTranslateX);
+                    ((SettingItem) (mouseEvent1.getSource())).setTranslateY(newTranslateY);
+                    if (!canPlace(new Point((int)(mouseEvent.getSceneX() / 64) * 64, (int)(mouseEvent.getSceneY() / 64) * 64))){
+                        circle.setFill(Color.web("Red",0.3));
+                    }  else {
+                        circle.setFill(Color.web("Blue",0.1));
+                    }
+                });
+                cnClone.setOnMousePressed(e1 -> {
+                    if (e1.getButton() == MouseButton.PRIMARY) {
+                        int x = (int) (mouseEvent.getSceneX() / 64) * 64;
+                        int y = (int) (mouseEvent.getSceneY() / 64) * 64;
+                        if (canPlace(new Point(x, y))) {
+                            Tower tower1;
+                            switch (selectTower) {
+                                case 1:
+                                    tower1=new NormalTower(x,y);
+                                    break;
+                                case 2:
+                                    tower1=new MissileLauncherTower(x,y);
+                                    break;
+                                case 4:
+                                    tower1=new MachineGunTower(x,y);
+                                    break;
+                                default:
+                                    throw new IllegalStateException("Unexpected value: " + selectTower);
+                            }
+                            if (canAfford(tower1)) {
+                                Tower.towers.add(tower1);
+                                Player.cash -= tower1.cost;
                                 GameField.unfeasiblePlacement.add(new Point(x, y));
                             }
-                        }
-                        if (e.getButton() == MouseButton.SECONDARY) {
-                            //getChildren().remove(getChildren().size() - 1);
-                            getChildren().remove(cnClone);
-                        }
-                    });
 
-                }
+
+                        }
+
+                    }
+                    if (e1.getButton() == MouseButton.SECONDARY) {
+                        //getChildren().remove(getChildren().size() - 1);
+                        getChildren().remove(cnClone);
+                    }
+                });
+
             });
             getChildren().add(cnClone);
         });
     }
-    EventHandler<MouseEvent> cannonOnMouseMovedEventHandler =
-
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
-
-                    double offsetX = t.getSceneX() - orgSceneX;
-                    double offsetY = t.getSceneY() - orgSceneY;
-                    double newTranslateX = orgTranslateX + offsetX;
-                    double newTranslateY = orgTranslateY + offsetY;
-                    ((SettingItem)(t.getSource())).setTranslateX(newTranslateX);
-                    ((SettingItem)(t.getSource())).setTranslateY(newTranslateY);
-                }
-            };
 
     public boolean canPlace(Point point){
         if(GameField.unfeasiblePlacement.contains(point)) return false;
         return true;
     }
-    public boolean canAfford(){
-        return Player.cash >= cost;
+    public boolean canAfford(Tower tower){
+        return Player.cash >= tower.cost;
     }
 }

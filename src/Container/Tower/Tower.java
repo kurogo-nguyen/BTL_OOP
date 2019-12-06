@@ -3,11 +3,14 @@ package Container.Tower;
 import Container.Enemy.Enemy;
 import Container.Field.GameField;
 import Container.GameObj;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +18,15 @@ import java.util.List;
 public abstract class Tower extends GameObj {
     public static List<Tower> towers = new ArrayList<>();
     protected int damage;
-    protected int affordUpgrade ;
     boolean check = true;
     protected Bullet b = new Bullet();
     protected Image gunImg;
     protected Enemy target;
     protected double shootingRange;
     protected int selling ;
-//    protected boolean towerUpgrade ;
-    protected boolean renderFireRange ;
+
+
+    protected int rateOfFire=10;
     public static GraphicsContext gc;
     public int cost;
     Tower towerUpgrade;
@@ -147,28 +150,28 @@ public abstract class Tower extends GameObj {
     public boolean hitsTarget(Enemy enemy){
         return target == enemy && withinFiringRange;
     }
-    public boolean shootTarget(Enemy enemy) {
-
-        if(target == enemy && withinFiringRange){
-            if(check) {
-                Bullet bullet = creatBullet(this.x , this.y , this.rotation);
-                b = bullet;
-                //GameField.bullets.add(bullet);
-                check=false;
-            }
-            else if(b.collidesWith(enemy)){
-                Bullet.bullets.remove(b);
-                Bullet other = creatBullet(this.x , this.y , this.rotation);
-                //GameField.bullets.add(other);
-                b = other ;
-                return true;
-            }else if(GameField.distance(b.x , b.y , this.x , this.y) > shootingRange){
-                Bullet.bullets.remove(b);
-                check=true;
-            }
-        }
-        return false;
-    }
+//    public boolean shootTarget(Enemy enemy) {
+//
+//        if(target == enemy && withinFiringRange){
+//            if(check) {
+//                Bullet bullet = creatBullet(this.x , this.y , this.rotation);
+//                b = bullet;
+//                //GameField.bullets.add(bullet);
+//                check=false;
+//            }
+//            else if(b.collidesWith(enemy)){
+//                Bullet.bullets.remove(b);
+//                Bullet other = creatBullet(this.x , this.y , this.rotation);
+//                //GameField.bullets.add(other);
+//                b = other ;
+//                return true;
+//            }else if(GameField.distance(b.x , b.y , this.x , this.y) > shootingRange){
+//                Bullet.bullets.remove(b);
+//                check=true;
+//            }
+//        }
+//        return false;
+//    }
     public Bullet creatBullet(double x , double y , double rotation){
         Bullet bullet = new Bullet(x , y , rotation);
         Bullet.bullets.add(bullet);
@@ -193,6 +196,18 @@ public abstract class Tower extends GameObj {
 
     public double getShootingRange() {
         return shootingRange;
+    }
+    void shot(){
+        Timeline timeline = new Timeline();
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(2000/rateOfFire), event -> {
+            if(target!=null){
+                Bullet.bullets.add(creatBullet(x, y, rotation));
+            }
+        });
+
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 }
 

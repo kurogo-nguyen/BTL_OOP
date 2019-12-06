@@ -10,14 +10,19 @@ import java.util.List;
 
 public class Bullet extends GameObj {
     public static List<Bullet> bullets = new ArrayList<>();
-    protected int rateOfFire;
+    private int rateOfFire;
+    int damage;
     public Bullet(){}
     public Bullet(double x , double y , double rotation) {
-        this.rateOfFire = 15;
+        this.rateOfFire = 5;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile272.png");
         this.x = x;
         this.y = y;
         this.rotation = rotation;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     public void render(GraphicsContext gc){

@@ -13,7 +13,7 @@ public class PlaneEnemy extends Enemy {
         this.reward = 15;
         this.enemyHP = 200;
         this.health = 200;
-        this.speed = 3 ;
+        this.speed = 2 ;
         this.direction = Direction.DOWN;
     }
 

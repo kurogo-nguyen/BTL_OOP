@@ -11,16 +11,19 @@ public class MissileLauncherTowerLv2 extends Tower {
     }
     public MissileLauncherTowerLv2(double x , double y){
         cost=40;
-        this.selling = 30 ;
+        rateOfFire=2;
+        this.selling = 50 ;
         this.shootingRange = 5*64;
-        this.damage = 15;
+        this.damage = 50;
         this.x = x;
         this.y = y;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png");
         this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile206.png");
+        shot();
     }
     public Bullet creatBullet(double x , double y , double rotation){
         Bullet bullet = super.creatBullet(x , y , rotation);
+        bullet.damage=damage;
         bullet.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile252.png");
         return bullet;
     }

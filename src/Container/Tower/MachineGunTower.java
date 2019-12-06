@@ -12,17 +12,20 @@ public class MachineGunTower extends Tower{
     }
     public MachineGunTower(double x , double y){
         cost=35;
+        rateOfFire=10;
         towerUpgrade=new MachineGunTowerLv2();
-        this.selling = 25;
-        this.shootingRange = 2*64;
+        this.selling = 20;
+        this.shootingRange = 2*64+32;
         this.damage = 13;
         this.x = x;
         this.y = y;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile181.png");
         this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile203.png");
+        shot();
     }
     public Bullet creatBullet(double x , double y , double rotation){
         Bullet bullet = super.creatBullet(x , y , rotation);
+        bullet.damage=damage;
         bullet.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile251.png");
         return bullet;
     }

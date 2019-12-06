@@ -12,9 +12,9 @@ public class BossEnemy extends Enemy{
 
     public BossEnemy() {
         this.reward = 50;
-        this.enemyHP = 1000;
-        this.health = 1000;
-        this.speed = 1.7 ;
+        this.enemyHP = 2000;
+        this.health = 2000;
+        this.speed = 0.7 ;
         this.direction = Direction.DOWN;
     }
 

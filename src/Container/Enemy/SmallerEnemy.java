@@ -14,7 +14,7 @@ public class SmallerEnemy extends Enemy{
         this.reward = 5;
         this.enemyHP = 100;
         this.health = 100;
-        this.speed = 4 ;
+        this.speed = 2 ;
         this.direction = Direction.DOWN;
     }
 

@@ -13,9 +13,9 @@ public class TankerEnemy extends Enemy{
 
     public TankerEnemy() {
         this.reward = 10;
-        this.enemyHP = 150;
-        this.health = 150;
-        this.speed = 4;
+        this.enemyHP = 500;
+        this.health = 500;
+        this.speed = 1;
         this.direction = Direction.DOWN;
     }
 

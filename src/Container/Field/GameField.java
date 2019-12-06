@@ -141,15 +141,18 @@ public class GameField extends GameStage{
         }
     }
     public void checkCollisions() {
-        for( Tower tower: Tower.towers) {
+//        for( Tower tower: Tower.towers) {
+        for (int j = 0; j < Bullet.bullets.size(); j++) {
             for (int index = 0; index < Enemy.enemies.size(); index++) {
-                if( tower.shootTarget(Enemy.enemies.get(index))) {
-                    Enemy.enemies.get(index).getDamagedBy( tower);
+                if(Bullet.bullets.get(j).collidesWith(Enemy.enemies.get(index))) {
+                    Enemy.enemies.get(index).getDamagedBy(Bullet.bullets.get(j));
+                    Bullet.bullets.remove(j--);
                     if( !Enemy.enemies.get(index).isAlive()) {
                         Player.cash += Enemy.enemies.get(index).reward;
                         Player.score += Enemy.enemies.get(index).reward;
                         Enemy.enemies.remove(index--);
                     }
+                    break;
                 }
             }
         }

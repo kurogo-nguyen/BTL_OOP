@@ -11,17 +11,20 @@ public class NormalTowerLV2 extends Tower {
         this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile250.png");
     }
     public NormalTowerLV2(double x , double y){
+        rateOfFire=10;
         cost=20;
-        this.selling = 30 ;
-        this.shootingRange = 4*64;
-        this.damage = 50;
+        this.selling = 20 ;
+        this.shootingRange = 3*64+32;
+        this.damage = 20;
         this.x = x;
         this.y = y;
         this.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile182.png");
         this.gunImg = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile250.png");
+        shot();
     }
     public Bullet creatBullet(double x , double y , double rotation){
         Bullet bullet = super.creatBullet(x , y , rotation);
+        bullet.damage=damage;
         bullet.img = new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile274.png");
         return bullet;
     }

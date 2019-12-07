@@ -1,5 +1,6 @@
 package Container.Menu;
 
+import Container.Main;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -10,22 +11,22 @@ import java.io.File;
 
 public abstract class Audio{
     static double volume=0.2;
-    static MediaPlayer music;
+    public static MediaPlayer music;
 
     public static void setVolume(double volume) {
         Audio.volume = volume;
         music.setVolume(volume);
     }
 
-    public static void PlayBackgroundMusic(Pane group){
+    static MediaView PlayBackgroundMusic(){
         File m = new File("src/sounds/8_music.mp3");
         music = new MediaPlayer(new Media(m.toURI().toString()));
         music.setVolume(volume);
         music.setAutoPlay(true);
         music.play();
-        MediaView mediaView=new MediaView(music);
-        group.getChildren().add(mediaView);
+        return new MediaView(music);
     }
+
 
     public static MediaView PlayBuildTowerAudio(){
         String filepath = "src/sounds/3_turretbuild.mp3";

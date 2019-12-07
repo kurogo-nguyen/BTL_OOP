@@ -4,9 +4,12 @@ import Container.Field.GameField;
 import Container.Menu.Audio;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Main extends Application {
     public static Stage stage;
@@ -21,10 +24,13 @@ public class Main extends Application {
             @Override
             public void handle(long l) {
                 gameField.render(gc);
-                gameField.update();
+                try {
+                    gameField.update();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         };
-
         stage.setTitle("Tower Defense");
         timer.start();
         stage.show();

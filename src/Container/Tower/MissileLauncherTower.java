@@ -46,6 +46,7 @@ public class MissileLauncherTower extends Tower {
     }
     public void upgrade(){
         Tower.towers.add(new MissileLauncherTowerLv2(x,y));
+        target=null;
         Tower.towers.remove(this);
     }
 

@@ -35,6 +35,7 @@ public class GameMenu extends Parent implements Parameter {
 
         MenuButton btnStart = new MenuButton("START GAME");
         btnStart.setOnMouseClicked(event -> {
+            Audio.music.stop();
             Main.scene = Scenes.gameTowerDF();
             Main.stage.setScene(Main.scene);
             GameField.startGame = true;
@@ -104,16 +105,33 @@ public class GameMenu extends Parent implements Parameter {
             Image imageHighScore = new Image("file:resource/image/highScoreImage.png",screenWidth, screenHeight,false,false);
             ImageView ivHighScore = new ImageView(imageHighScore);
 
-            String a = ReadHighScore();
-            Text text = new Text(screenWidth/2-40, screenHeight/3, a);
-            text.setStyle("-fx-font: 20 bell ; -fx-fill: #0026e7; -fx-text-alignment:  center");
+            HighScore.setHighScores();
+            StringBuilder name = new StringBuilder();
+            StringBuilder score = new StringBuilder();
+            for (int i = 0; i < HighScore.getHighScores().size(); i++) {
+                if(HighScore.getHighScores().get(i).getScore()==0)
+                    break;
+                else {
+                    name.append(HighScore.getHighScores().get(i).getName()+"\n");
+                    score.append(HighScore.getHighScores().get(i).getScore()+"\n");
+                }
+            }
+            System.out.println(name);
+            System.out.println(score);
+            Text text = new Text(screenWidth/2-100, screenHeight/3, name.toString());
+            text.setLineSpacing(20);
+            text.setStyle("-fx-font: 20 bell ; -fx-fill: #0026e7; -fx-text-alignment:  Left");
+
+            Text text1 = new Text(screenWidth/2+50, screenHeight/3, score.toString());
+            text1.setLineSpacing(20);
+            text1.setStyle("-fx-font: 20 bell ; -fx-fill: #0026e7; -fx-text-alignment:  Right");
 
             btnBack.setLayoutX(screenWidth/2-125);
             btnBack.setLayoutY(500);
             btnBack.setOnMouseClicked(mouseEvent1 -> {
-                getChildren().removeAll(ivHighScore,text, btnBack);
+                getChildren().removeAll(ivHighScore,text, text1, btnBack);
             });
-            getChildren().addAll(ivHighScore,text, btnBack);
+            getChildren().addAll(ivHighScore,text, text1, btnBack);
         });
 
 

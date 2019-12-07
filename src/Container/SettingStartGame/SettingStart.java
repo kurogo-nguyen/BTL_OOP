@@ -4,6 +4,8 @@ import Container.Enemy.*;
 import Container.Field.GameField;
 import Container.Field.Point;
 import Container.Main;
+import Container.Menu.Audio;
+import Container.Menu.Scenes;
 import Container.Player;
 import Container.Tower.MachineGunTower;
 import Container.Tower.MissileLauncherTower;
@@ -14,6 +16,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
@@ -104,6 +107,7 @@ public class SettingStart extends Parent {
                         });
                         sell.setOnMouseClicked(event2 ->{
                             Player.cash += tower.getSelling();
+                            tower.setTarget(null);
                             Tower.towers.remove(tower);
                             for (int i = 0; i < GameField.unfeasiblePlacement.size(); i++) {
                                 Point a = GameField.unfeasiblePlacement.get(i);
@@ -256,6 +260,7 @@ public class SettingStart extends Parent {
                                     throw new IllegalStateException("Unexpected value: " + selectTower);
                             }
                             if (canAfford(tower1)) {
+                                Scenes.root.getChildren().add(Audio.PlayBuildTowerAudio());
                                 Tower.towers.add(tower1);
                                 Player.cash -= tower1.cost;
                                 GameField.unfeasiblePlacement.add(new Point(x, y));
@@ -292,6 +297,7 @@ public class SettingStart extends Parent {
 
     public boolean canPlace(Point point){
         if(GameField.unfeasiblePlacement.contains(point)) return false;
+        if(point.x>17*64 || point.y>64*11)return false;
         return true;
     }
     public boolean canAfford(Tower tower){

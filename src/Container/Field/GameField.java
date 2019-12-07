@@ -4,13 +4,19 @@ import Container.Enemy.Enemy;
 import Container.Enemy.SmallerEnemy;
 import Container.Enemy.TankerEnemy;
 import Container.Main;
+import Container.Menu.Audio;
+import Container.Menu.HighScore;
 import Container.Menu.Scenes;
 import Container.Player;
 import Container.SettingStartGame.SettingItem;
 import Container.Tower.Bullet;
 import Container.Tower.Tower;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,6 +55,14 @@ public class GameField extends GameStage{
                 }
             }
         }
+        unfeasiblePlacement.add(new Point( 15 * 64,  10 * 64));
+        unfeasiblePlacement.add(new Point(16 *64,  10 * 64));
+        unfeasiblePlacement.add(new Point( 5 * 64 , 9 * 64));
+        unfeasiblePlacement.add(new Point(6 * 64 , 9 * 64));
+        unfeasiblePlacement.add(new Point(11 * 64 , 0));
+        unfeasiblePlacement.add(new Point(12 * 64 , 0));
+        unfeasiblePlacement.add(new Point(12 * 64 , 64));
+        unfeasiblePlacement.add(new Point(12 * 64 , 32));
     }
 
     public void saveImage(){
@@ -83,6 +97,7 @@ public class GameField extends GameStage{
         gc.drawImage(decoration.get(3) , 11 * 64 , 0);
         gc.drawImage(decoration.get(4) , 12 * 64 , 32 );
 
+
     }
 
     public void render(GraphicsContext gc) {
@@ -95,22 +110,12 @@ public class GameField extends GameStage{
 
         }
     }
-    public void update(){
+    public void update() throws IOException {
         if(startLevel) {
             if(Player.lives == 0) {
                 reset();
                 Main.scene = Scenes.gameOver();
                 Main.stage.setScene(Main.scene);
-
-//                FileInputStream fileInputStream = new FileInputStream("resource/HighScore.txt");
-//                StringBuilder a = new StringBuilder();
-//                int charIndex = fileInputStream.read();
-//                while (charIndex!=-1){
-//                    a.append((char) charIndex);
-//                    charIndex=fileInputStream.read();
-//                }
-
-
             }
             Tower.towers.forEach(tower -> {
                 tower.checkTarget();
@@ -179,7 +184,7 @@ public class GameField extends GameStage{
         reset();
         //gameObjects.addAll(SmallerEnemy.listSoldiers());
 //        Enemy.enemies.addAll(TankerEnemy.listTanks());
-
+        Audio.music.stop();
         Main.scene = Scenes.menuGame();
         Main.stage.setScene(Main.scene);
     }

@@ -1,15 +1,19 @@
 package Container.Menu;
 
-import javafx.scene.text.Text;
-
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class HighScore {
-    String name;
-    int score;
-    List<HighScore> list = new ArrayList<>();
+    private static String name;
+    private static int score;
+
+    public static List<HighScore> getHighScores() {
+        return highScores;
+    }
+
+    static List<HighScore> highScores = new ArrayList<>();
 
     public HighScore(String name, int score) {
         this.name = name;
@@ -39,18 +43,42 @@ public class HighScore {
         return a.toString();
     }
 
-    void creatListHighScore() throws IOException {
-        FileReader fr=new FileReader(new File("resource/HighScore.txt"));   //reads the file
-        BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream
-        StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters
-        String line;
-        while((line=br.readLine())!=null)
-        {
-            list.add(new HighScore(line, Integer.parseInt(br.readLine())));
+    public static void setHighScores(){
+        FileReader fr= null;   //reads the file
+        try {
+            fr = new FileReader(new File("resource/HighScore.txt"));
+            BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream
+            String line;
+            while((line=br.readLine())!=null)
+            {
+                highScores.add(new HighScore(line, Integer.parseInt(br.readLine())));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
-    void add(){
+    public int getScore() {
+        return score;
+    }
 
+    public static void add(String name, int _score) throws IOException {
+        highScores.add((new HighScore(name, _score)));
+        highScores.sort(Comparator.comparing(HighScore::getScore));
+        writeHighScore();
+    }
+
+    static void writeHighScore() throws IOException {
+        StringBuilder s= new StringBuilder(new String());
+        for (int i = 1; i < highScores.size(); i++) {
+            s.insert(0, name + "\n" + score + "\n");
+        }
+
+        FileOutputStream fileOutputStream =new FileOutputStream(new File("resource/HighScore.txt"));
+                fileOutputStream.write(s.toString().getBytes());
+    }
+    public String getName() {
+        return name;
     }
 }

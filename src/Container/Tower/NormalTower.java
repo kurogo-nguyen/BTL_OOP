@@ -46,6 +46,7 @@ public class NormalTower extends Tower {
     }
     public void upgrade(){
         Tower.towers.add(new NormalTowerLV2(x,y));
+        target=null;
         Tower.towers.remove(this);
     }
 

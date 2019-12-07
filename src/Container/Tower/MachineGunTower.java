@@ -47,6 +47,7 @@ public class MachineGunTower extends Tower{
     }
     public void upgrade(){
         Tower.towers.add(new MachineGunTowerLv2(x,y));
+        target=null;
         Tower.towers.remove(this);
     }
 

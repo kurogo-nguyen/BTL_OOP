@@ -39,7 +39,7 @@ public class MenuButton extends StackPane {
             text.setFill(Color.WHITE);
         });
 
-        DropShadow drop = new DropShadow(50, Color.WHITE);
+        DropShadow drop = new DropShadow();
 
         setOnMousePressed(event -> setEffect(drop));
         setOnMouseReleased(event -> setEffect(null));

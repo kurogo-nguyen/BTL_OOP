@@ -12,6 +12,9 @@ import Container.Tower.Tower;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,22 +95,29 @@ public class GameField extends GameStage{
 
         }
     }
-    public void update() {
+    public void update(){
         if(startLevel) {
             if(Player.lives == 0) {
-                youLose();
+                reset();
                 Main.scene = Scenes.gameOver();
                 Main.stage.setScene(Main.scene);
+
+//                FileInputStream fileInputStream = new FileInputStream("resource/HighScore.txt");
+//                StringBuilder a = new StringBuilder();
+//                int charIndex = fileInputStream.read();
+//                while (charIndex!=-1){
+//                    a.append((char) charIndex);
+//                    charIndex=fileInputStream.read();
+//                }
+
+
             }
             Tower.towers.forEach(tower -> {
                 tower.checkTarget();
-            });
-            Tower.towers.forEach(tower -> {
                 tower.findTarget(Enemy.enemies);
-            });
-            Tower.towers.forEach(tower -> {
                 tower.setAngle();
             });
+
 
             checkCollisions();
 
@@ -165,25 +175,15 @@ public class GameField extends GameStage{
         Scenes.root.getChildren().remove(2);
         Scenes.root.getChildren().add(Scenes.gameFactors);
     }
-    public static void reset(){
-        startGame = false;
-        startLevel = false;
-        creatEnemy = false;
-        level = 0;
-        Player.lives = 20;
-        Player.cash = 50;
-
-        unfeasiblePlacement.removeAll(unfeasiblePlacement);
-        Tower.towers.removeAll(Tower.towers);
-        Enemy.enemies.removeAll(Enemy.enemies);
-        Bullet.bullets.removeAll(Bullet.bullets);
+    public static void backToMainMenu(){
+        reset();
         //gameObjects.addAll(SmallerEnemy.listSoldiers());
-        Enemy.enemies.addAll(TankerEnemy.listTanks());
+//        Enemy.enemies.addAll(TankerEnemy.listTanks());
 
         Main.scene = Scenes.menuGame();
         Main.stage.setScene(Main.scene);
     }
-    public static void youLose(){
+    public static void reset(){
         startGame = false;
         startLevel = false;
         creatEnemy = false;
@@ -196,7 +196,7 @@ public class GameField extends GameStage{
         Enemy.enemies.removeAll(Enemy.enemies);
         Bullet.bullets.removeAll(Bullet.bullets);
 
-        Enemy.enemies.addAll(SmallerEnemy.listSoldiers());
+//        Enemy.enemies.addAll(SmallerEnemy.listSoldiers());
 
     }
 }

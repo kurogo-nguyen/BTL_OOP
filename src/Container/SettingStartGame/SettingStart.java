@@ -4,21 +4,18 @@ import Container.Enemy.*;
 import Container.Field.GameField;
 import Container.Field.Point;
 import Container.Main;
-import Container.Menu.Audio;
 import Container.Player;
 import Container.Tower.MachineGunTower;
 import Container.Tower.MissileLauncherTower;
 import Container.Tower.NormalTower;
 import Container.Tower.Tower;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -27,8 +24,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
-import java.util.List;
 
 
 public class SettingStart extends Parent {
@@ -76,72 +71,57 @@ public class SettingStart extends Parent {
         mainMenu.setTranslateY(718 );
 
 
-        setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Main.scene.setOnMouseClicked(e ->{
-                    if(e.getButton() == MouseButton.PRIMARY) {
-                        boolean check = false;
-                        int x = (int) (e.getSceneX() / 64) * 64;
-                        int y = (int) (e.getSceneY() / 64) * 64;
+        setOnMouseClicked(event -> Main.scene.setOnMouseClicked(mouseEvent ->{
+            if(mouseEvent.getButton() == MouseButton.PRIMARY) {
+                boolean check = false;
+                int x = (int) (mouseEvent.getSceneX() / 64) * 64;
+                int y = (int) (mouseEvent.getSceneY() / 64) * 64;
 
-                        Circle circle = new Circle();
-                        circle.setFill(Color.web("Blue", 0.1));
-                        circle.setCenterX(x+32);
-                        circle.setCenterY(y+32);
-                        setCursor(Cursor.HAND);
+                for (Tower tower : Tower.towers) {
+                    if (tower.x == x && tower.y == y) {
+                        getChildren().remove(pane);
+                        pane = new Pane();
+                        HBox hBox = new HBox(10);
+                        hBox.setTranslateY(365);
+                        hBox.setTranslateX(15);
+                        ImageView test = new ImageView(tower.infoImage());
+                        test.setFitHeight(420);
+                        test.setFitWidth(245);
+                        SettingItem upgrade = new SettingItem("Upgrade", 0);
+                        SettingItem sell = new SettingItem("Sell" , 0);
 
-                        for (Tower tower : Tower.towers) {
-                            if (tower.x == x && tower.y == y) {
-                                getChildren().remove(pane);
-                                pane = new Pane();
-                                HBox hBox = new HBox(10);
-                                hBox.setTranslateY(365);
-                                hBox.setTranslateX(15);
-                                ImageView test = new ImageView(tower.infoImage());
-                                test.setFitHeight(420);
-                                test.setFitWidth(245);
-                                SettingItem upgrade = new SettingItem("Upgrade", 0);
-                                SettingItem sell = new SettingItem("Sell" , 0);
+                        hBox.getChildren().addAll(upgrade , sell);
+                        pane.getChildren().addAll(test , hBox);
+                        pane.setTranslateX(18 * 64 + 3);
+                        pane.setTranslateY(344);
 
-//                                circle.setRadius(tower.getShootingRange());
-//                                getChildren().add(circle);
-
-                                hBox.getChildren().addAll(upgrade , sell);
-                                pane.getChildren().addAll(test , hBox);
-                                pane.setTranslateX(18 * 64 + 3);
-                                pane.setTranslateY(344);
-
-                                getChildren().addAll(pane);
-                                upgrade.setOnMouseClicked(event1 ->{
-                                    if(canAfford(tower.getTowerUpgrade())) {
-                                        tower.upgrade();
-                                        Player.cash -= tower.getTowerUpgrade().cost;
-                                    }
-                                });
-                                sell.setOnMouseClicked(event2 ->{
-                                    Player.cash += tower.getSelling();
-                                    Tower.towers.remove(tower);
-                                    for (int i = 0; i < GameField.unfeasiblePlacement.size(); i++) {
-                                        Point a = GameField.unfeasiblePlacement.get(i);
-                                        if (a.x == x && a.y == y) GameField.unfeasiblePlacement.remove(a);
-                                    }
-                                    getChildren().remove(pane);
-
-
-                                });
-                                check = true;
-                                break;
+                        getChildren().addAll(pane);
+                        upgrade.setOnMouseClicked(event1 ->{
+                            if(canAfford(tower.getTowerUpgrade())) {
+                                tower.upgrade();
+                                Player.cash -= tower.getTowerUpgrade().cost;
                             }
-                        }
-                        if (check == false && e.getSceneX() < 18 * 64) {
+                        });
+                        sell.setOnMouseClicked(event2 ->{
+                            Player.cash += tower.getSelling();
+                            Tower.towers.remove(tower);
+                            for (int i = 0; i < GameField.unfeasiblePlacement.size(); i++) {
+                                Point a = GameField.unfeasiblePlacement.get(i);
+                                if (a.x == x && a.y == y) GameField.unfeasiblePlacement.remove(a);
+                            }
                             getChildren().remove(pane);
-                            getChildren().remove(circle);
-                        }
+
+
+                        });
+                        check = true;
+                        break;
                     }
-                });
+                }
+                if (!check && mouseEvent.getSceneX() < 18 * 64) {
+                    getChildren().remove(pane);
+                }
             }
-        });
+        }));
 
 
 
@@ -156,7 +136,9 @@ public class SettingStart extends Parent {
             Timeline timeline = new Timeline();
             KeyFrame keyFrame = new KeyFrame(Duration.millis(5000), event -> {
                 count ++ ;
-                if(count == 2) Enemy.enemies.add(BossEnemy.creatSBoss());
+                if(count == 2){
+                    Enemy.enemies.add(BossEnemy.creatSBoss());
+                }
                 else {
                     Enemy.enemies.addAll(SmallerEnemy.listSoldiers());
                     Enemy.enemies.addAll(TankerEnemy.listTanks());
@@ -170,7 +152,7 @@ public class SettingStart extends Parent {
         });
 
         mainMenu.setOnMouseClicked(e ->{
-            GameField.reset();
+            GameField.backToMainMenu();
         });
         cannon1.setOnMousePressed(e ->{
             selectTower = 1;
@@ -277,6 +259,20 @@ public class SettingStart extends Parent {
                                 Tower.towers.add(tower1);
                                 Player.cash -= tower1.cost;
                                 GameField.unfeasiblePlacement.add(new Point(x, y));
+                            } else {
+                                Rectangle rc =new Rectangle(64*4,64);
+                                rc.setY(64*11);
+                                rc.setX(64*13);
+                                rc.setFill(Color.web("red", 0.5));
+                                rc.getFill();
+
+                                Timeline timeline = new Timeline();
+                                KeyFrame keyFrame = new KeyFrame(Duration.millis(700),new KeyValue(rc.fillProperty(), Color.web("red",0)));
+                                timeline.getKeyFrames().add(keyFrame);
+                                timeline.setCycleCount(2);
+                                timeline.play();
+
+                                getChildren().add(rc);
                             }
 
 

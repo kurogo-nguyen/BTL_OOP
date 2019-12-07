@@ -13,6 +13,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import Container.GameObj;
 
@@ -43,7 +45,6 @@ public class Scenes implements Parameter {
     }
 
     public static Scene gameTowerDF(){
-        List<GameObj> gameObjects = new ArrayList<>();
         Canvas canvas = new Canvas(64 * 18 + 250, 64 * 12);
         Main.gc = canvas.getGraphicsContext2D();
         root = new Group();

@@ -6,6 +6,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class MenuButton extends StackPane {
@@ -13,7 +14,7 @@ public class MenuButton extends StackPane {
 
     public MenuButton(String name) {
         text = new Text(name);
-        text.setFont(text.getFont().font(25));
+        text.setFont(Font.font(25));
         text.setFill(Color.WHITE);
 
         Rectangle rc = new Rectangle(250, 40);
@@ -42,5 +43,17 @@ public class MenuButton extends StackPane {
 
         setOnMousePressed(event -> setEffect(drop));
         setOnMouseReleased(event -> setEffect(null));
+    }
+
+    public Text getText() {
+        return text;
+    }
+
+    public void setText(String string) {
+        getChildren().remove(text);
+        this.text = new Text(string);
+        text.setFont(Font.font(25));
+        text.setFill(Color.BLACK);
+        getChildren().add(text);
     }
 }

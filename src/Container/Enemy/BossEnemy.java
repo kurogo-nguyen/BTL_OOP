@@ -33,7 +33,7 @@ public class BossEnemy extends Enemy{
     public static BossEnemy creatSBoss(){
         BossEnemy bossEnemy = new BossEnemy();
         bossEnemy.i = 14;
-        bossEnemy.j = - 2 ;
+        bossEnemy.j = - 3 ;
         bossEnemy.x = bossEnemy.i * 64 + 32;
         bossEnemy.y = (bossEnemy.j) * 64  ;
         bossEnemy.img = new Image("file:src/AssetsKit_2/boss1.png");

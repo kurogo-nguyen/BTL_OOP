@@ -14,10 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import static Container.Menu.HighScore.ReadHighScore;
 
 
 public class GameMenu extends Parent implements Parameter {
@@ -87,43 +84,42 @@ public class GameMenu extends Parent implements Parameter {
             });
         });
 
+        MenuButton btnSound = new MenuButton("SOUND: ON");
+        btnSound.setOnMouseClicked(mouseEvent -> {
+            if(btnSound.getText().getText().equals("SOUND: OFF")){
+                btnSound.setText("SOUND: ON");
+                Audio.setVolume(0.2);
+            } else {
+                btnSound.setText("SOUND: OFF");
+                Audio.setVolume(0);
+            }
+            System.out.println(btnSound.getText().getText());
+
+        });
+
+        menu1.getChildren().addAll(btnBack, btnSound);
+
         MenuButton btnHighScore = new MenuButton("High Score");
         btnHighScore.setOnMouseClicked(mouseEvent -> {
             Image imageHighScore = new Image("file:resource/image/highScoreImage.png",screenWidth, screenHeight,false,false);
             ImageView ivHighScore = new ImageView(imageHighScore);
 
-//            File file = new File("resource/HighScore.txt");
-            try {
-//                FileOutputStream fileOutputStream =new FileOutputStream(file);
-//                String b="Huy          1000\n" +
-//                         "Duc Anh       500";
-//                fileOutputStream.write(b.getBytes());
-                FileInputStream fileInputStream = new FileInputStream("resource/HighScore.txt");
-                String a =new String();
-                int charIndex = fileInputStream.read();
-                while (charIndex!=-1){
-                    a+=(char)charIndex;
-                    charIndex=fileInputStream.read();
-                }
-                Text text = new Text(screenWidth/2, screenHeight/3, a);
-                text.setStyle("-fx-font: 31 arial ; -fx-fill: #0026e7;");
-                btnBack.setLayoutX(screenWidth/2-125);
-                btnBack.setLayoutY(500);
-                btnBack.setOnMouseClicked(mouseEvent1 -> {
-                    getChildren().removeAll(ivHighScore,text, btnBack);
-                });
-                getChildren().addAll(ivHighScore,text, btnBack);
-                System.out.println(a);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String a = ReadHighScore();
+            Text text = new Text(screenWidth/2-40, screenHeight/3, a);
+            text.setStyle("-fx-font: 20 bell ; -fx-fill: #0026e7; -fx-text-alignment:  center");
+
+            btnBack.setLayoutX(screenWidth/2-125);
+            btnBack.setLayoutY(500);
+            btnBack.setOnMouseClicked(mouseEvent1 -> {
+                getChildren().removeAll(ivHighScore,text, btnBack);
+            });
+            getChildren().addAll(ivHighScore,text, btnBack);
         });
 
-        MenuButton btnSound = new MenuButton("SOUND");
-        MenuButton btnVideo = new MenuButton("VIDEO");
+
 
         menu0.getChildren().addAll(btnStart, btnOptions, btnHighScore, btnExit);
-        menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
+
 
         getChildren().add(menu0);
     }

@@ -84,8 +84,13 @@ public class GameMenu extends Parent implements Parameter {
                 getChildren().remove(menu1);
             });
         });
+        String a;
+        if(Audio.volume!=0)
+            a="SOUND: ON";
+        else
+            a="SOUND: OFF";
+        MenuButton btnSound = new MenuButton(a);
 
-        MenuButton btnSound = new MenuButton("SOUND: ON");
         btnSound.setOnMouseClicked(mouseEvent -> {
             if(btnSound.getText().getText().equals("SOUND: OFF")){
                 btnSound.setText("SOUND: ON");

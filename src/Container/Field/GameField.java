@@ -197,6 +197,10 @@ public class GameField extends GameStage{
         Player.cash = 50;
 
         unfeasiblePlacement.removeAll(unfeasiblePlacement);
+        for (Tower i :
+                Tower.towers) {
+            i.setTarget(null);
+        }
         Tower.towers.removeAll(Tower.towers);
         Enemy.enemies.removeAll(Enemy.enemies);
         Bullet.bullets.removeAll(Bullet.bullets);

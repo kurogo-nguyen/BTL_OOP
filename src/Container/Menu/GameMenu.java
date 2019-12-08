@@ -109,9 +109,7 @@ public class GameMenu extends Parent implements Parameter {
             StringBuilder name = new StringBuilder();
             StringBuilder score = new StringBuilder();
             for (int i = 0; i < HighScore.getHighScores().size(); i++) {
-                if(HighScore.getHighScores().get(i).getScore()==0)
-                    break;
-                else {
+                if(HighScore.getHighScores().get(i).getScore()!=0){
                     name.append(HighScore.getHighScores().get(i).getName()+"\n");
                     score.append(HighScore.getHighScores().get(i).getScore()+"\n");
                 }

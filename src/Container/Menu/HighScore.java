@@ -6,14 +6,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class HighScore {
-    private static String name;
-    private static int score;
+    protected String name;
+    protected int score;
+
+    static List<HighScore> highScores = new ArrayList<>();
 
     public static List<HighScore> getHighScores() {
         return highScores;
     }
-
-    static List<HighScore> highScores = new ArrayList<>();
 
     public HighScore(String name, int score) {
         this.name = name;
@@ -44,6 +44,7 @@ public class HighScore {
     }
 
     public static void setHighScores(){
+        highScores=new ArrayList<>();
         FileReader fr= null;   //reads the file
         try {
             fr = new FileReader(new File("resource/HighScore.txt"));
@@ -51,7 +52,8 @@ public class HighScore {
             String line;
             while((line=br.readLine())!=null)
             {
-                highScores.add(new HighScore(line, Integer.parseInt(br.readLine())));
+                HighScore a= new HighScore(line, Integer.parseInt(br.readLine()));
+                highScores.add(a);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,13 +72,13 @@ public class HighScore {
     }
 
     static void writeHighScore() throws IOException {
-        StringBuilder s= new StringBuilder(new String());
+        StringBuilder s= new StringBuilder("");
         for (int i = 1; i < highScores.size(); i++) {
-            s.insert(0, name + "\n" + score + "\n");
+            s.insert(0, highScores.get(i).getName() + "\n" + highScores.get(i).getScore() + "\n");
         }
-
+        System.out.println(s);
         FileOutputStream fileOutputStream =new FileOutputStream(new File("resource/HighScore.txt"));
-                fileOutputStream.write(s.toString().getBytes());
+        fileOutputStream.write(s.toString().getBytes());
     }
     public String getName() {
         return name;

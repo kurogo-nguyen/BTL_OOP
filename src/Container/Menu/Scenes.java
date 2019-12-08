@@ -6,6 +6,7 @@ import Container.Main;
 import Container.Player;
 import Container.SettingStartGame.SettingItem;
 import Container.SettingStartGame.SettingStart;
+import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -79,21 +80,19 @@ public class Scenes implements Parameter {
 
         HighScore.setHighScores();
         if(Player.score>HighScore.getHighScores().get(4).getScore()){
-            AtomicBoolean check= new AtomicBoolean(false);
             TextField textField = new TextField("Enter your name");
             textField.setAlignment(Pos.CENTER);
             textField.setMinWidth(180);
 
             Button button = new Button("Enter");
             button.setCursor(Cursor.HAND);
-            button.setOnMouseClicked(mouseEvent ->  {
-                if(check.get())
-                    try {
-                        HighScore.add(textField.getText(), Player.score);
-                        check.set(true);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            button.setOnMouseClicked(mouseEvent -> {
+                try {
+                    HighScore.add(textField.getText(), Player.score);
+                    vBox.getChildren().remove(button);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             });
             vBox.getChildren().addAll(textField,button);
         }

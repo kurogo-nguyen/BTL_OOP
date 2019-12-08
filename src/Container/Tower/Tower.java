@@ -17,13 +17,12 @@ import java.util.List;
 
 public abstract class Tower extends GameObj {
     public static List<Tower> towers = new ArrayList<>();
-    protected int damage;
-    boolean check = true;
+    int damage;
     protected Bullet b = new Bullet();
-    protected Image gunImg;
-    protected Enemy target;
-    protected double shootingRange;
-    protected int selling ;
+    Image gunImg;
+    Enemy target;
+    double shootingRange;
+    int selling ;
 
 
     protected int rateOfFire=10;
@@ -31,7 +30,7 @@ public abstract class Tower extends GameObj {
     public int cost;
     Tower towerUpgrade;
 
-    boolean withinFiringRange = false;
+    private boolean withinFiringRange = false;
 
     public void render(GraphicsContext gc) {
 //        SnapshotParameters params = new SnapshotParameters();

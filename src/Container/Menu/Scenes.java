@@ -104,6 +104,7 @@ public class Scenes implements Parameter {
 
         mButton playAgain = new mButton("PLAY AGAIN");
         playAgain.setOnMouseClicked(mouseEvent -> {
+            Audio.music.stop();
             Main.scene = Scenes.gameTowerDF();
             Main.stage.setScene(Main.scene);
             GameField.startGame = true;

@@ -6,21 +6,21 @@ import java.util.Comparator;
 import java.util.List;
 
 public class HighScore {
-    protected String name;
-    protected int score;
+    private String name;
+    private int score;
 
-    static List<HighScore> highScores = new ArrayList<>();
+    private static List<HighScore> highScores = new ArrayList<>();
 
-    public static List<HighScore> getHighScores() {
+    static List<HighScore> getHighScores() {
         return highScores;
     }
 
-    public HighScore(String name, int score) {
+    private HighScore(String name, int score) {
         this.name = name;
         this.score = score;
     }
 
-    public static String ReadHighScore(){
+    static String ReadHighScore(){
         StringBuilder a = new StringBuilder();
         //            File file = new File("resource/HighScore.txt");
         try {
@@ -43,11 +43,10 @@ public class HighScore {
         return a.toString();
     }
 
-    public static void setHighScores(){
+    static void setHighScores(){
         highScores=new ArrayList<>();
-        FileReader fr= null;   //reads the file
         try {
-            fr = new FileReader(new File("resource/HighScore.txt"));
+            FileReader fr = new FileReader(new File("resource/HighScore.txt"));
             BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream
             String line;
             while((line=br.readLine())!=null)
@@ -61,7 +60,7 @@ public class HighScore {
 
     }
 
-    public int getScore() {
+    int getScore() {
         return score;
     }
 
@@ -71,8 +70,8 @@ public class HighScore {
         writeHighScore();
     }
 
-    static void writeHighScore() throws IOException {
-        StringBuilder s= new StringBuilder("");
+    private static void writeHighScore() throws IOException {
+        StringBuilder s= new StringBuilder();
         for (int i = 1; i < highScores.size(); i++) {
             s.insert(0, highScores.get(i).getName() + "\n" + highScores.get(i).getScore() + "\n");
         }
@@ -80,7 +79,7 @@ public class HighScore {
         FileOutputStream fileOutputStream =new FileOutputStream(new File("resource/HighScore.txt"));
         fileOutputStream.write(s.toString().getBytes());
     }
-    public String getName() {
+    String getName() {
         return name;
     }
 }
